@@ -1,0 +1,499 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+  
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+  <title>Annocript 0.2 - OUTPUT</title>
+
+  
+  
+  <meta name="GENERATOR" content="LibreOffice 3.5  (Linux)">
+
+  
+  <style type="text/css">
+	<!--
+		@page { margin: 0.79in }
+		P { margin-bottom: 0.1in; line-height: 120% }
+		A:link { so-language: zxx }
+	-->
+	</style>
+</head><body>
+<big><big><big>Annocript 0.2 - OUTPUT</big></big></big><br>
+
+<br>
+
+<big><big>How Annocript manages folders and files</big></big><br>
+
+<br>
+
+(Here we will write folders in capital letters)<br>
+
+When you run Annocript the first time two folders are created in the
+working directory you created <br>
+
+(e.g. ann_works):<br>
+
+<ul>
+
+  <li>JOBS: contains all the analysis data you will run and get</li>
+  <li>DATA: contains all the file downloaded for the database and the
+index files for BLAST</li>
+</ul>
+
+<br>
+
+Inside
+the JOBS folder you will see all the sessions you saved as folders.
+Suppose that you session is S1. The folder S1 will have the following
+content:<br>
+
+<ul>
+
+  <li>DATA: a folder containing a set of files that Annocript creates
+during the execution. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <br>
+  </li>
+  <ul>
+    <li>outHashFile.hash: an hash that will contain all the output from
+the programs to be used successively for fast execution</li>
+    <li>configHash: the hash containing all the parameters of the
+programs<br>
+    </li>
+  </ul>
+  <li>OUTPUT: contains all the output by Annocript and the programs.
+Thus it contains:</li>
+  <ul>
+    <li> BLASTX: a folder containing results from BLASTx (BLASTp);</li>
+    <li>BLASTN: a folder containing results from BLASTn (tBLASTn);</li>
+    <li>RPSTBLASTN: a folder containing results from rpstBLASTn
+(rpsBLAST);</li>
+    <li>portraitOut: output from PORTRAIT execution;</li>
+    <li>dna2pepOut: output from the DNA2PEP execution;<br>
+    </li>
+    <li>S1_uniref_2014_04_ann_out.txt: is the complete tabular output
+of Annocript;</li>
+    <li>S1_uniref_2014_04_filt_ann_out.txt: is the reduced tabular
+output of Annocript (without the sequence);</li>
+    <li>S1_uniref_2014_04_lncRNAseqs.fasta: is a fasta file with all
+the putative lncRNAs identified by Annocript. <a href="#lncRNA4Annocript">See below</a> to understand;</li>
+    <li>S1_uniref_2014_04_orf_info.fasta: is a fasta file with all the
+longest ORF as extracted by dna2pep. It is a fasta file containing in
+the header;</li>
+    <ul>
+      <li>the name of the transcript</li>
+      <li>the strand and the frame as found from dna2pep and BLASTx
+(BLASTp)</li>
+      <li>the longest ORF</li>
+    </ul>
+    <li>S1_uniref_2014_04_codingSeqs.fasta: a fasta file with all the
+coding sequences as found by Annocript. <a href="#Coding_sequences">See
+below</a> to understand.ì<br>
+      <br>
+    </li>
+  </ul>
+  <li>GFF:
+this is a folder containing the output from BLAST programs given in
+GFF3 format: rpstblastn_out.gff, blastn_out.gff, portait_out.gff,
+blastxUniref_out.gff, blastxSprot_out.gff, dna2pep_out.gff. They are
+overwritten if the GFF are created again. </li>
+  <li>STATS: This folder contains:</li>
+  <ul>
+    <li>a set of files with percentages of presence of GO classes,
+pathways
+and organisms/taxonomies: GO_bp_percentages, GO_mf_percentages,
+GO_cc_percentages, pwl1_percentages, pwl2_percentages,
+pwl3_percentages, closer_os_table.txt; ATGC percentages:
+ATGC_Percentages.txt;</li>
+    <li>a HTML file (comprehensive of a folder with images) with all
+the statistics and plots coming out from the files of percentages;</li>
+    <li>S1_UNIREF_STATSPAGE: is the folder coming with the HTML file
+containing all the needed images;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </li>
+  </ul>
+  <li>LOG: it is a folder containing:</li>
+  <ul>
+    <li>a log file for Annocript. It comes with date and time to be
+specific of a particular run; <br>
+    </li>
+    <li>a file with times occurred to run Annocript that has date and
+time both files have date and time.</li>
+    <li>R log, coming out for the generation of plots in R.<br>
+    </li>
+  </ul>
+  <li>S1_SLICE: this folder contains you transcriptome divided
+in equally distributed bases. These&nbsp; files are created to be ran
+parallely with rpsBLAST.</li>
+  <li>portrait_S1.fasta: it is the fasta file created ad-hoc to use in
+PORTRAIT. Since some stuffs in the nucleotidic sequences are not
+accepted by the software, it should be cleaned;</li>
+  <li>S1.fasta: the transcriptome inserted by the user;</li>
+  <li>config_user.txt: the file with the configuration used.<br>
+  </li>
+</ul>
+
+<big>Log files</big><br>
+
+<br>
+
+Apart
+from the main log file about the run of Annocript and the file with
+times, three log files are created by Annocript during the construction
+of DB.<br>
+
+<ul>
+
+  <li>uniprotkb_headParsNAValues.log: this log file is
+written while the Uniprot_kb/uniref table construction is running. This
+table will contain a set of data fetched from the headers of the
+corresponding databases from Uniprot. If a tag does not contain
+anything, Annocript will write in this log the corresponding rowand tag
+which does not appear. You can consider to look at this file to see
+what is the progress in the reading of the Uniprot database;</li>
+  <li>uniprotkbgenesNotPresent.log:
+this file contains the genes that during the GO mapping are not found
+in the Uniprot_kb/Uniref table;</li>
+  <li>R.log: will be in the LOG folder and will contain the output of
+the R script for the plots.<br>
+  </li>
+</ul>
+
+<br>
+
+<big><big>What does Annocript gives in the tabular output</big></big><br>
+
+<br>
+
+<big>Columns of the output file with Uniprot_KB </big><br>
+
+(UNIPROT Knowledgebase containing both results from Swiss-Prot and
+Trembl)<br>
+
+<br>
+
+Annocript gives in output a text file with tab separated fields. They
+are the following:<br>
+
+<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+TranscriptName: is the name of the transcript as given in your FASTA
+file<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+TransLength: is the length in nucleotides (or aminoacids) of the
+transcript<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Count: this is the number of reads that have been used from the
+assembler program to build this transcript<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPNameSP: this is the first HSP result (lowest e-value) as given from
+the BLASTx output against Swiss-Prot.<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPLengthSP: is the corresponding length in nucleotides of the HSP
+result<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPEvalueSP: is the corresponding e-value assigned to the HSP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HITLengthSP: is the length of the first HIT as given from BLASTx output<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+QCoverageSP: this is how much of the query (transcript) is covered from
+the HSP (<a href="#QCoverage_and_HCoverage_">See below</a>)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HCoverageSP: this is how much the HSP covers the HIT (<a href="OUTPUT.html#QCoverage_and_HCoverage_">See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DescriptionSP: description of the HSP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+EnzymeIds: enzyme identifier corresponding to the HSP. (<a href="#EnzymeIds">See below</a>)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+EnzymeDescs: enzyme descriptions of the&nbsp; EnzymeIds (<a href="OUTPUT.html#EnzymeIds">See below</a>)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPNameTR: this is the hsp with lowest score as given from the BLASTx
+output against Trembl<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPLengthTR: is the corresponding length <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPEvalueTR: is the corresponding e-value assigned to the HSP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HITLengthTR: is the length of the HIT as given from BLASTx output<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+QCoverageTR: this is how much of the query (transcript) is covered from
+the HSP (<a href="OUTPUT.html#QCoverage_and_HCoverage_">See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HCoverageTR: this is how much the HSP covers the HIT (<a href="OUTPUT.html#QCoverage_and_HCoverage_">See below</a>)<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DescriptionTR: description of the HSP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OSName: organism corresponding to the result among Swiss-Prot and
+Trembl with lowest e-value <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+BPId: Biological processes ids corresponding to the best e-value result
+among Swiss-Prot and trembl with llowest e-value (separated by ]---[) <a href="#GO_classes">(See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+BPDesc: Biological processes descriptions corresponding to the result
+among Swiss-Prot and trembl with lowest e-value (separated by ]---[) <a href="OUTPUT.html#GO_classes">(See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MFId: molecular functions ids corresponding to the best e-value result
+among Swiss-Prot and trembl with lowest e-value (separated by ]---[) <a href="OUTPUT.html#GO_classes">(See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MFDesc: molecular descriptions corresponding to the best e-value result
+among Swiss-Prot and trembl with lowest e-value (separated by ]---[) <a href="OUTPUT.html#GO_classes">(See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CCId: cellular components ids corresponding to the best e-value result
+among Swiss-Prot and trembl with lowest e-value (separated by ]---[) <a href="OUTPUT.html#GO_classes">(See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CCDesc: cellular components descriptions corresponding to the best
+e-value result among Swiss-Prot and trembl with lowest e-value
+(separated by ]---[) <a href="OUTPUT.html#GO_classes">(See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CDName: all domains names coming out from the output of rpsBLAST<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CDStartEnd: domains start-end coming out from the rpsBLAST<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CDEvalue: domains e-values <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+CDDesc: domains descriptions<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OtherNCName: name of the ribosomial and other ncRNA sequences coming
+from the output og BLASTn<a href="#Other_NC"> (See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OtherNCEvalue: e-value of the ribosomial and other ncRNA sequences
+coming from the output of BLASTn <a href="OUTPUT.html#Other_NC"> (See
+below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OtherNCDesc: descriptions of the ribosomial and other ncRNA sequences
+coming from the output of BLASTn <a href="OUTPUT.html#Other_NC"> (See
+below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+LongOrfLength: length of the longest ORF as found from DNA2PEP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+LongOrfStrand: strand of the longest ORF as found from DNA2PEP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+LongOrfFrame: frame of the longest ORF as found from DNA2PEP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ProbToBeNonCoding: probability that the sequence is non-coding coming
+from PORTRAIT<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+lncRNA4Annocript: Annocript's heuristic about the sequence if it is a
+lncRNA. See below.<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sequence: the aminoacidic (peptidic) sequence of the transcript<br>
+
+<br>
+
+The filtered version of the output does not contain the sequences.<br>
+
+<br>
+
+<big>Columns of output file the with Uniref <br>
+<br>
+</big>It
+contains both results from Swiss-Prot and Uniref90. The table is the
+same but now the GO terms are always associated with Uniref result. And
+the following names change to "Uf" for Uniref.<br>
+
+<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPNameUf: this is the HSP with lowest e-value as given from the BLASTx
+output against Uniref<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPLengthUf: is the corresponding length of the HSP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HSPEvalueUf: is the corresponding e-value assigned to the HSP<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HITLengthUf: is the length of the HIT as given from BLASTx output<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+QCoverageUf: this is how much of the query (transcript) is covered from
+the HSP (<a href="OUTPUT.html#QCoverage_and_HCoverage_">See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HCoverageUf: this is how much the HSP covers the HIT (<a href="OUTPUT.html#QCoverage_and_HCoverage_">See below)</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DescriptionUf: description of the HSP <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Taxonomy: taxonomy corresponding to the result of Uniref<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+
+The filtered version of the output does not contain the sequences.<br>
+
+<br>
+
+<span style="font-weight: bold;"><a name="lncRNA4Annocript"></a>lncRNA4Annocript</span><br>
+
+<br>
+
+This
+field is 1 when Annocript thinks that the sequence is a lncRNA. 0 value
+does not mean that the sequence is coding. You will see the coding
+sequences inside a FASTA file with all of them.<br>
+
+<br>
+
+The sequence is non coding if:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+- the longest orf length is less or equal than NCORFLength;<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+- the length of the query is equal or more than NCSeqLength;<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+- ProbToBeNonCoding is more or equal to NCThresh.<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+
+Where NCORFLength, NCSeqLength, NCThresh are modifiable parameters in
+the user configuration file.<br>
+
+<br>
+
+PAY ATTENTION! If the value is 0, this does not mean that the
+transcript is coding!<br>
+
+<br>
+
+<span style="font-weight: bold;"><a name="Coding_sequences"></a>Coding
+sequences<br>
+<br>
+</span>The file with the coding sequences contains sequences which have
+at least
+a homology result among Swiss-Prot, Trembl/Uniref or Domains or they
+should have a longest ORF bigger than 100 aminoacids.<br>
+
+<br>
+
+<span style="font-weight: bold;"><a name="QCoverage_and_HCoverage_"></a>QCoverage
+and HCoverage </span><br>
+
+<br>
+
+They are computed as follows:<br>
+
+<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; my $hspQueryCoverage =
+($hsp-&gt;length('query')/$result-&gt;query_length)*100;</span><br style="font-weight: bold;">
+
+<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; my $hspHitCoverage =
+($hsp-&gt;length('hit')/$hit-&gt;length)*100;<br>
+</span>Please refer to the PERL manual to see the meaning of the fields.<br>
+
+<br>
+
+<span style="font-weight: bold;"><a name="EnzymeIds"></a>EnzymeIds</span><br>
+
+<br>
+
+This value is extracted by using the file at the following link:<br>
+
+<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; enzymeDBLink =
+ftp://ftp.expasy.org/databases/enzyme/enzyme.dat</span><br>
+
+<br>
+
+The
+database built by Annocript contains a table where each enzyke
+identifier is associated with the corresponding Swiss-Prot id. In the
+output table we take the one associated at "HSPNameSP".<br>
+
+<br>
+
+<span style="font-weight: bold;"><a name="GO_classes"></a>GO classes<br>
+<br>
+</span>Biological
+Process (BP), molecular functions (MF) and cellular components (CC)
+come out from the GO ids associated to the Uniref/Uniprot_kb ids. We
+extracted the mapping from the
+file at <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; <br>
+<br>
+&nbsp;&nbsp;&nbsp;
+GODBLink =
+ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz
+in the config_annocript file. </span><br>
+
+<br>
+
+<a style="font-weight: bold;" name="Other_NC"></a><span style="font-weight: bold;">Other NC</span><br>
+
+<p style="margin-bottom: 0in; line-height: 100%;" align="justify"><font face="Times New Roman, serif"><font size="3">A search against other
+noncoding RNAs (rRNA, tRNA, snRNA, snoRNA,
+miRNA) is done by performing a BLASTn search against an integrated
+database of RFAM and NCBI Refseq ribosomal RNAs.</font></font></p>
+
+<br>
+
+<br>
+
+If you get some error during the installation or the running of
+Annocript please always refer to the <a href="FAQ.html">FAQ</a> page!<br>
+
+For any kind of information or suggestion please find me at: francesco
+[dot]
+musacchia [at] szn [dot]it<br>
+
+<br>
+
+<h5 style="text-align: center;"><a href="../index.html">ReadMe</a> - <a href="INTRO.html">Introduction</a> - <a href="INSTALL.html">Install</a>
+- <a href="TUTORIAL.html">Tutorial</a> - <a href="file:///home/frank/Desktop/SZN_Work/code/Annocript0.2.4/HTML_GUIDE/OUTPUT.html">Output</a>
+- <a href="ADVANCED_USAGE.html">Advanced Usage</a> - <a href="FAQ.html">FAQ </a>- <a href="HISTORY.html">History</a><br>
+</h5>
+
+<h5 style="text-align: center;">Annocript 0.2 - Copyright of
+Bioinformatics Lab SZN Naples</h5>
+
+<br>
+
+<br>
+</body></html>

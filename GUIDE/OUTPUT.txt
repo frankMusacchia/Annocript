@@ -1,0 +1,265 @@
+				        |------------------------------------------|
+                                        |     Annocript 0.2  FILES_ORGANIZATION    |
+                                        |------------------------------------------|
+
+
+*How Annocript manages folders and files
+
+(Here we will write folders in capital letters)
+When you run Annocript the first time two folders are created in the working directory you created 
+(e.g. ann_works):
+	- JOBS: contains all the analysis data you will run and get
+	- DATA: contains all the file downloaded for the database and the index files for BLAST
+
+
+Inside the JOBS folder you will see all the sessions you saved as folders. Suppose that you session is S1. The folder S1 will have the following content:
+	- DATA: a folder containing a set of files that Annocript creates during the execution. 		*outHashFile.hash: an hash that will contain all the output from the programs to be used successively for fast execution
+		*configHash: the hash containing all the parameters of the programs
+	
+	- OUTPUT: contains all the output by Annocript and the programs. Thus it contains:
+		-BLASTX: a folder containing results from BLASTx (BLASTp);
+		-BLASTN: a folder containing results from BLASTn (tBLASTn);
+		-RPSTBLASTN: a folder containing results from rpstBLASTn (rpsBLAST);
+		*S1_uniref_2014_04_ann_out.txt: is the complete tabular output of Annocript;
+		*S1_uniref_2014_04_filt_ann_out.txt: is the reduced tabular output of Annocript (without the sequence);
+		*S1_uniref_2014_04_lncRNAseqs.fasta: is a fasta file with all the putative lncRNAs identified by Annocript
+		*S1_uniref_2014_04_orf_info.fasta: is a fasta file with all the longest ORF as extracted by dna2pep. It is a fasta file containing in the header:
+			- the name of the transcript
+			- the strand and the frame as found from dna2pep and BLASTx (BLASTp)
+			- the longest ORF
+		*S1_uniref_2014_04_codingSeqs.fasta: a fasta file with all the coding sequences as found by Annocript.
+		These files are overwritten if the GFF are created again. 
+
+	- GFF: this is a folder containing the output from BLAST programs given in GFF3 format:rpstblastn_out.gff, blastn_out.gff, portait_out.gff, blastxUniref_out.gff, blastxSprot_out.gff, dna2pep_out.gff. They are overwritten if the GFF are created again. 
+	
+	- STATS: This folder contains:
+		- a set of files with percentages of presence of GO classes, pathways and organisms/taxonomies: GO_bp_percentages, GO_mf_percentages, GO_cc_percentages, pwl1_percentages, pwl2_percentages, pwl3_percentages, closer_os_table.txt;
+		- ATGC percentages: ATGC_Percentages.txt;
+		- a HTML file (comprehensive of a folder with images) with all the statistics and plots coming out from the files of percentages;
+		- S1_UNIREF_STATSPAGE: is the folder coming with the HTML file containing all the needed images;
+		
+	
+	- LOG: it is a folder containing:
+		- a log file for Annocript. It comes with date and time to be specific of a particular run;
+		- a file with times occurred to run Annocript that has date and time
+	both files have date and time.
+
+	- S1_SLICE: this folder contains you transcriptome divided in equally distributed bases. These  files are created to be ran parallely with rpsBLAST.
+
+*Log files
+
+Apart from the main log file of Annocript and the file with times, ther log files are created by Annocript during the construction of DB.
+ - uniprotkb_headParsNAValues.log: this log file is written while the Uniprot_kb/uniref table construction is running. This table will contain a set of data fetched from the 
+					headers of the corresponding databases from Uniprot. If a tag does not contain anything, Annocript will write in this log the corresponding row
+				and tag which does not appear. You can consider to look at this file to see what is the progress in the reading of the Uniprot database.
+
+*What does Annocript give in the tabular output
+
+Columns of the output file with Uniprot_KB 
+(UNIPROT Knowledgebase containing both results from Swiss-Prot and Trembl)
+
+Annocript gives in output a text file with tab separated fields. They are the following:
+
+                TranscriptName: is the name of the transcript as given in your FASTA file
+                TransLength: is the length of the transcript
+                Count: this is the number of reads that have been used from Trinity to build this transcript
+                HSPNameSP: this is the hsp with lowest score as given from the BLASTX output against Swiss-Prot.
+                HSPLengthSP: is the corresponding length 
+                HSPScoreSP: is the corresponding evalue assigned to the HSP
+                HITLength: is the length of the HIT as given from BLASTX output
+                QCoverage: this is how much of the query (transcript) is covered from the HSP
+                HCoverage: this is how much the HSP covers the HIT
+                DescriptionSP: description of the protein aligned
+                EnzymeIds: enzyme id corresponding to the HSP. To take this value is accessed the database built by 
+                                Annocript. The value corresponds to  the uniprot SP id  HSPNameSP and is extracted from the file at 
+                enzymeDBLink config_annocript variable 
+                EnzymeDescs: enzyme descriptions of the  EnzymeIds
+                HSPNameTR: this is the hsp with lowest score as given from the BLASTX output against Trembl
+                HSPLengthTR: is the corresponding length 
+                HSPScoreTR: is the corresponding evalue assigned to the HSP
+                HITLength: is the length of the HIT as given from BLASTX output
+                QCoverage: this is how much of the query (transcript) is covered from the HSP
+                HCoverage: this is how much the HSP covers the HIT
+                DescriptionTR: description of the protein aligned 
+                OSName: organism corresponding to the result among Swiss-Prot and trembl with lower score 
+                BPId: Biological processes ids corresponding to the result among Swiss-Prot and trembl with lower
+                        score (separated by ]---[)
+                BPDesc: Biological processes descriptions corresponding to the result among Swiss-Prot and trembl with 
+                        lower score (separated by ]---[)
+                MFId: molecular functions ids corresponding to the result among Swiss-Prot and trembl with lower score 
+                        (separated by ]---[)
+                MFDesc: molecular descriptions corresponding to the result among Swiss-Prot and trembl with lower 
+                        score (separated by ]---[)
+                CCId: cellular components ids corresponding to the result among Swiss-Prot and trembl with lower
+                        score (separated by ]---[)
+                CCDesc: cellular components descriptions corresponding to the result among Swiss-Prot and trembl 
+                        with lower score (separated by ]---[)
+                CDName: domains names coming out from the rps BLAST
+                CDStartEnd: domains start-end coming out from the rps BLAST
+                CDScore: domains evalues 
+                CDDesc: domains descriptions
+                OtherNCName: name of the ribosomial and RNA sequences coming from the BLASTN
+                OtherNCScore:scores of the ribosomial and RNA sequences coming from the BLASTN
+                OtherNCDesc: descriptions of the ribosomial and RNA sequences coming from the BLASTN
+                LongOrfLength: length of the longest ORF as found from DNA2PEP
+                LongOrfStrand: strand of the longest ORF as found from DNA2PEP
+                LongOrfFrame: frame of the longest ORF as found from DNA2PEP
+                ProbToBeNonCoding: probability that the sequence is non-coding coming from PORTRAIT
+                lncRNA4Annocript: Annocript decision about the sequence: coding or non-coding
+                Sequence: the aminoacidic (peptidic) sequence of the transcript
+
+The filtered version of the output does not contains the sequences.
+
+Columns of output file the with Uniref 
+(Contains both results from Swiss-Prot and Uniref90)
+
+Annocript gives in output a text file with tab separated fields. They are the following:
+                
+                TranscriptName: is the name of the transcript as given in your FASTA file
+                TransLength: is the length of the transcript
+                Count: this is the number of reads that have been used from Trinity to build this transcript
+                HSPNameSP: this is the hsp with lowest score as given from the BLASTX output against Swiss-Prot.
+                HSPLengthSP: is the corresponding length 
+                HSPScoreSP: is the corresponding evalue assigned to the HSP
+                HITLength: is the length of the HIT as given from BLASTX output
+                QCoverage: this is how much of the query (transcript) is covered from the HSP
+                HCoverage: this is how much the HSP covers the HIT
+                DescriptionSP: description of the protein aligned
+                EnzymeIds: enzyme id corresponding to the HSP. The value corresponds to  the uniprot SP id  HSPNameSP 
+                        and is extracted from the file at enzymeDBLink in the config_annocript file 
+                EnzymeDescs: enzyme descriptions of the  EnzymeIds
+                HSPNameUf: this is the hsp with lowest score as given from the BLASTX output against Uniref
+                HSPLengthUf:is the corresponding length 
+                HSPScoreUf: is the corresponding evalue assigned to the HSP
+                HITLength: is the length of the HIT as given from BLASTX output
+                QCoverage: this is how much of the query (transcript) is covered from the HSP
+                HCoverage: this is how much the HSP covers the HIT
+                DescriptionTR: description of the protein aligned 
+                Taxonomy: taxonomy corresponding to the result of Uniref
+                Biological Process (BP), molecular functions (MF) and cellular components (CC) come out from the GO 
+                        ids associated to the uniprot ids. We extracted the mapping from the file at GODBLink  in the 
+                        config_annocript file.
+                BPId: Biological processes ids corresponding to the result of Uniref. 
+                BPDesc: Biological processes descriptions corresponding to the result of Uniref
+                MFId: molecular functions ids corresponding to the result of Uniref
+                MFDesc: molecular descriptions corresponding to the result of Uniref
+                CCId: cellular components ids corresponding to the result of Uniref
+                CCDesc: cellular components descriptions corresponding to the result of Uniref
+                CDName: domains names coming out from the rps BLAST. We take all the first num_descriptionsRPS as
+                        written in the config_user file.
+                CDStartEnd: domains start-end coming out from the rps BLAST
+                CDScore: domains e-values. We take the description of the CDName only once if it is present more than 
+                        one time.
+                CDDesc: domains descriptions
+                OtherNCName: name of the ribosomial and RNA sequences coming from the BLASTN
+                OtherNCScore:scores of the ribosomial and RNA sequences coming from the BLASTN
+                OtherNCDesc: descriptions of the ribosomial and RNA sequences coming from the BLASTN
+                LongOrfLength: length of the longest ORF as found by DNA2PEP
+                LongOrfStrand: strand of the longest ORF as found by DNA2PEP
+                LongOrfFrame: frame of the longest ORF as found by DNA2PEP
+                ProbToBeNonCoding: probability that the sequence is non-coding coming from PORTRAIT
+                lncRNA4Annocript: Annocript decision about the sequence: coding or non-coding
+                Sequence: the aminoacidic (peptidic) sequence of the transcript
+
+The filtered version of the output doesn't contains the sequences.
+
+
+
+*lncRNA4Annocript
+
+This field is 1 when Annocript thinks that the sequence is non-coding, 0 otherwise. 
+
+The sequence is non coding if:
+               - the longest orf length is less or equal than NCORFLength;
+               - the length of the query is equal or more than NCSeqLength;
+               - ProbToBeNonCoding is more or equal to NCThresh.
+               
+Where NCORFLength, NCSeqLength, NCThresh are modifiable parameters in the user configuration file.
+
+PAY ATTENTION! If the value is 0, this does not mean that the transcript is coding!
+We also create a file with coding sequences when it is present at least a homology result among Swiss-Prot, Trembl/Uniref or Domains
+
+---------------------------------
+Modifiable parameters of programs
+---------------------------------
+
+*BLAST Programs
+Actually we provided only a set of parameters for the BLAST programs:
+The parameters are tagged with the letter of the program: X (for BLASTX and BLASTP), N (for BLASTN and TBLASTN),
+RPS (for RPSBLAST and RPSTBLASTN).
+
+word_sizeX = 4
+evalueX = 1E-5
+num_descriptionsX = 5
+num_alignmentsX = 5
+max_target_seqsX =
+num_threadsX = 20
+outfmtX = 
+thresholdX = 18
+
+One last parameter is used to run programs in parallel. Actually it is used only for RPSBLAST (and RPSTBLASTN). 
+You can choose it depending from the number of processors of your computer. 
+
+parallelExecNum = 5
+
+
+*DNA2PEP parameters
+
+DNA2PEP takes only one parameter.
+orfLength = 10
+
+*PORTRAIT parameters
+
+The following are the parameters requested from PORTRAIT that we chose to use
+
+seq_lengthF = 300
+orf_lengthF = 100
+scoreF = 0.5
+uniref_evalF = 0.001
+cd_evalF = 0.001
+rfam_evalF = 0.001
+
+The following are the parameters that we used to exclude sequences and run PORTRAIT in a safe way. The split_num is
+the maximum number of sequences that have to stay in a single FASTA file to be used from the program. Then, min and
+max_port_seq_length are respectively the minimum and maximum sequences lengths that don't cause the block of the
+program. The same can happen for a sequence with more than 20% of Ns, so we added max_perc_ns.
+
+All the sequences that respect the constrains will be taken while the others are excluded. 
+
+split_num = 5000
+max_port_seq_length = 100000
+min_port_seq_length = 100
+max_perc_ns = 20
+
+
+The following parameters have been used to decide if a sequence can be non-coding.
+
+Thresholds to be non-coding
+
+NCThresh = 0.95
+NCORFLength = 100
+NCSeqLength = 200
+NCOutFile = NCOutFile
+cdEvalue = 0.1
+
+
+*Annocript configuration file
+
+Inside the Annocript folder you will find some constant parameters that you should not to change unless you are an 
+advanced user and you want to change the behaviour of Annocript. 
+Please don't change this file if you don't know what you are doing or you will seriously compromise the functioning.
+
+LINKS
+Here there are also the links to download the files to build the database. You can leave them as you find 
+
+swissprotDBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+tremblDBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_trembl.fasta.gz
+versionDBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/reldate.txt
+parsingFilePath = uniprot_kb_headers.txt
+GODBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz
+GOTermsLink = http://www.geneontology.org/doc/GO.terms_alt_ids
+enzymeDBLink = ftp://ftp.expasy.org/databases/enzyme/enzyme.dat
+cddDBLink = ftp://ftp.ncbi.nih.gov/pub/mmdb/cdd/little_endian/Pfam_LE.tar.gz
+rfamDBLink = ftp://ftp.sanger.ac.uk/pub/databases/Rfam/CURRENT/Rfam.fasta.gz
+dbCreationScript = dbCreation.sql
+cddTableLink = ftp://ftp.ncbi.nih.gov/pub/mmdb/cdd/cddid_all.tbl.gz

@@ -1,0 +1,210 @@
+
+<h1>Annocript</h1>
+<span style="font-style: italic;">Annocript</span> is a pipeline for
+the annotation of <span style="font-style: italic;">de-novo</span>
+generated
+transcriptomes. It executes several BLAST analysis steps with UniProt,
+NCBI Conserved Domain Database and Nucleotide divisions adding also
+annotations from Gene Ontology, the Enzyme Commission and Pathways. <span style="font-style: italic;">Annocript</span> also uses PORTRAIT
+software to measure non-coding
+potential. <br>
+<br>
+<big><big>Mission</big></big>
+<br>
+<span style="font-style: italic;">Annocript</span> is a highly
+configurable tool to annotate and analyze
+transcriptomes. Since it is not coming with a double-click installation
+you should dedicate a bit of time the first time you use it. <br>
+But don't
+run away! <br>
+This is a very simple guide, it is big only because
+everything is explained step-by-step but we promise that, after you
+installed and ran once, you will do it very rapidly the following times
+and you will never stop using it!
+<br>
+We strongly suggest to keep open this guide while you are installing
+and running <span style="font-style: italic;">Annocript</span> for the
+first time.
+<br>
+<br>
+<big><big>System Requirements</big></big>
+<br>
+To work, <span style="font-style: italic;">Annocript</span> needs:
+<br>
+<ul>
+  <li>MySQL database server (tested with ver5.1) <br>
+  </li>
+  <li>You also need a MySQL
+client (tested with ver5.5, with a working user account with user-id
+and password) <br>
+  </li>
+  <li>PERL (tested with ver5.10) <br>
+  </li>
+  <li>BIOPERL (tested with ver1.6) <br>
+  </li>
+  <li>PYTHON (tested with ver2.6) <br>
+  </li>
+  <li>R (tested with ver3.0) <br>
+  </li>
+  <li>BLAST+ (tested with ver2.25) <br>
+  </li>
+  <li>PORTRAIT (tested with ver1.1) <br>
+  </li>
+  <li>DNA2PEP (tested with ver1.1) <br>
+  </li>
+</ul>
+<big><big>Installation and tutorial</big></big><br>
+To start using it you must follow instructions in the <span style="font-weight: bold;">GUIDE</span> folder.
+Below is a simple introduction of what you will find there and how to
+find solutions to possible problems. <br>
+<ul>
+  <li><span style="font-style: italic;">Annocript</span> has some
+specific purposes. To figure out what they
+are, please read the <a href="HTML_GUIDE/INTRO.html">INTRO</a> page; <br>
+  </li>
+  <li>Since <span style="font-style: italic;">Annocript</span> is a
+pipeline, it uses some software that you have
+to download and install. Please follow the instructions on how to do it
+in the <a href="HTML_GUIDE/INSTALL.html">INSTALL</a> page. There you
+will also learn how to
+install <span style="font-style: italic;">Annocript</span>; <br>
+  </li>
+  <li>Every software has is thorns... To understand how to run <span style="font-style: italic;">Annocript</span>
+the first time please read the <a href="HTML_GUIDE/TUTORIAL.html">TUTORIAL</a>
+page; <br>
+  </li>
+  <li>When you will be an advanced user you will want to use <span style="font-style: italic;">Annocript</span> in
+a faster and smarter way. <a href="HTML_GUIDE/ADVANCED_USAGE.html">ADVANCED_USAGE</a>
+explains how to begin to
+do this. Here, an "hints and tips" section contains a lot of useful
+information on how to perform advanced operations;&nbsp;&nbsp;</li>
+  <li><a href="HTML_GUIDE/FAQ.html">FAQ</a> contains Frequently Asked
+Questions (refer to the FAQ
+whenever you have errors that block <span style="font-style: italic;">Annocript</span>);
+    <br>
+  </li>
+  <li><a href="HTML_GUIDE/OUTPUT.html">OUTPUT</a> contains a list of
+all the output that <span style="font-style: italic;">Annocript</span>
+gives, the organization of folders and of the configuration files; <br>
+  </li>
+  <li><a href="HTML_GUIDE/HISTORY.html">HISTORY</a> is the history of
+changes to <span style="font-style: italic;">Annocript</span> from
+it's
+creation to the current release.
+Please enjoy this product and send us questions and suggestions! <br>
+  </li>
+</ul>
+<big><big><span style="font-style: italic;"><br>
+Annocript</span> times and space</big></big>
+<br>
+<br>
+Any user will wonder how much time and space <span style="font-style: italic;">Annocript</span> needs. We can
+say approximated times and sure space dimensions. <br>
+<span style="font-style: italic;">Annocript</span> execution time
+depends strongly from what modules the user
+is executing and of course from the speed and memory
+of your machine. Here we only show the most important processes that
+are always taking the biggest part of the overall computational time. <br>
+<br>
+<big>Database Creation</big><br>
+The database creation needs to be done only once but it depends on what
+proteins db you are creating (Uniref or Uniprot_kb).
+If you decide to use Uniprot_kb, <span style="font-style: italic;">Annocript</span>
+will fill an annotation
+table with both the BLAST results from Swiss-Prot and Trembl
+while if you are using Uniref, both Swiss-Prot and Uniref result will
+be shown.
+The database comprise also information about domains, GO, enzymes and
+pathways. Furthermore, databases to use for BLAST will be downloaded
+also (see the <a href="HTML_GUIDE/INTRO.html">INTRO</a> file for more
+information about this step).
+Consider as a suggestion that, if your machine is not very recent and
+powerful you can consider to install Uniref database.
+Otherwise Uniprot_kb is a good choice.
+<br>
+<br>
+<span style="font-weight: bold;">Times</span> <br>
+We took times for the creation of the database from 3 different
+machines with different cores and RAM memory: <br>
+<ul>
+  <li>Machine with 24 core
+and 96 GBRAM: Uniprot_kb_2014_03 - 4 hours - Uniref_2014_04 - 3 hours <br>
+  </li>
+  <li>Machine with 24 core and 24 GBRAM: Uniref 2013_01 - 9 hours -
+Uniprot_kb 2014_03 - 21 hours <br>
+  </li>
+  <li>Machine with 8 core and 8 GBRAM:
+Uniref 2014_05 - 38 hours <br>
+  </li>
+</ul>
+The speed of the overall process depends mostly from the time required
+for the download of the huge databases. Here the times were taken by
+using approximately 1MB/sec in download but depending from the speed of
+you connection the download process may take few hours more. <br>
+<br>
+<span style="font-weight: bold;">Space</span><br>
+The space needed to build the MySQL database is approximately: <br>
+<ul>
+  <li>&nbsp;UNIREF
+2014_04: 52.61GB (50.1GB for files; 2.4 GB MySQL db) <br>
+  </li>
+  <li>UNIPROTKB
+2014_04: 92.6GB (85.3GB for files; 7.3 GB MySQL db) <br>
+  </li>
+</ul>
+Newer protein databases will slightly increase the necessary space
+according to their growth in term of proteins numbers.
+You can save some space by choosing, during the configuration, to
+remove the downloaded .zip files.
+<br>
+- zip files in Uniref: 8.5GB
+<br>
+- zip files in Uniprotkb: 14.5GB
+<br>
+<br>
+<big>Programs Execution</big>
+<br>
+Programs execution strongly depends from the transcriptome and the
+database we are using. The number of sequences but mostly their mean
+length.
+We took the times of the BLASTx execution (the most expensive process)
+against the Uniref90 database with our default parameters (which you
+will find in the CONFIG_USER.txt) on a machine with 24 threads (2
+Intel(R) Xeon(R) X5660 at 2.80GHz and 96GB RAM). This machine permitted
+the multi-threaded run of blast and rpsblast. We always used 20 core.
+<br>
+The followings are the times when the given mean length of
+transcriptome. <br>
+<br>
+<span style="font-weight: bold;">Times</span>
+<br>
+It needed about: <br>
+<ul>
+  <li>6 hrs for 11351 transcripts of mean length 951
+nucleotides;</li>
+  <li>13 hrs for 30346 transcrips of mean length 1245
+nucleotides; <br>
+  </li>
+  <li>20 hrs for 17776 transcripts of mean length 1478 nucleotides;</li>
+  <li>23 hrs for 30339 transcripts of mean length 1427 nucleotides;</li>
+  <li>46 hrs for 98174 transcripts of mean length 965 nucleotides;</li>
+  <li>72 hrs for 64388 transcripts of mean length 2125 nucleotides. <br>
+  </li>
+</ul>
+Depending by the powerful of you machine, the BLASTx and the rpsBLAST
+execution may take few hours more. <br>
+<br>
+For any kind of information or suggestion please find me at: francesco
+[dot]
+musacchia [at] szn [dot]it<br>
+If you get some error during the installation or the running of
+Annocript please always refer to the <a href="HTML_GUIDE/FAQ.html">FAQ</a>
+page!<br>
+<br>
+<h5 style="text-align: center;"><a href="file:///home/frank/Desktop/SZN_Work/code/Annocript0.2.4/index.html">ReadMe</a>
+- <a href="HTML_GUIDE/INTRO.html">Introduction</a> - <a href="HTML_GUIDE/INSTALL.html">Install</a> - <a href="HTML_GUIDE/TUTORIAL.html">Tutorial</a> - <a href="HTML_GUIDE/OUTPUT.html">Output</a> - <a href="HTML_GUIDE/ADVANCED_USAGE.html">Advanced Usage</a> - <a href="HTML_GUIDE/FAQ.html">FAQ </a>- <a href="HTML_GUIDE/HISTORY.html">History</a><br>
+</h5>
+<h5 style="text-align: center;">Annocript 0.2 - Copyright of
+Bioinformatics Lab SZN Naples</h5>
+<br>
+<br>

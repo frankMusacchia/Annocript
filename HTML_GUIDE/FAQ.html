@@ -1,0 +1,269 @@
+
+<big><big><big>Annocript 0.2 - FAQ Frequently Asked Questions </big></big></big><br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I received this error
+during the PORTRAIT installation:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FATAL :: Unkwnown error in
+CAST program. If possible, please try installing PORTRAIT in another
+machine. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CAST dump...<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: CAST is written in ANSI
+C, so it needs libraries and a compiler
+that can happen are not installed in your system.<br>
+<br>
+Missing library. Install via terminal: sudo apt-get install g++<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Missing compiler ANSI C.
+Install via terminal: sudo apt-get install tcc:i386<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I received this error
+during the PORTRAIT installation:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FATAL :: Unkwnown error in
+ANGLE program. If possible, please try installing PORTRAIT in another
+machine. <br>
+<br>
+<span style="font-weight: bold;">Answer</span>: It is a missing library
+that you can install via terminal: sudo
+apt-get install libstdc++5<br>
+<br>
+If you don't used the version of Portrait included in Annocript you
+have to convert their file to Unix format. Go to<br>
+terminal and type:<br>
+<br>
+<span style="font-weight: bold;">apt-get install dos2unix</span><br>
+then<br>
+<span style="font-weight: bold;">dos2unix portrait-1.1.pl</span><br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I received this error
+in the log file:<br>
+Thu Nov 28 12:32:37 2013: Running DNA2PEP...<br>
+sh: 1: /home/shady/bioinfo/dna2pep-1.1/dna2pep.py: not found<br>
+ERROR: an error occurred while running
+/home/shady/bioinfo/dna2pep-1.1/dna2pep.py: 32512 at <br>
+PROGRAMS_EXEC/execute_programs.pm line 864.<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: If Annocript didn't
+find dna2pep it can means or that it is not
+really there or that you don't has the correct <br>
+permissions to access it. So control if the path in the config_user is
+correct and, if it is, change the permissions<br>
+of dna2pep.py:<br>
+<span style="font-weight: bold;">chmod 755 dna2pep.py.</span><br>
+<br>
+It can be possible that the Python interpreter is not present. You
+should install it and write in the dna2pep.py file<br>
+the correct path in the first line. You should open the dna2pep.py in
+the dna2pep folder and in the first line change <br>
+that path with the path where you have python. Usually it is
+/usr/bin/python.<br>
+If you already installed maybe that path only is not correct.<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: Long time is taken
+for the downloading and/or uncompression
+of big compressed files. What can I do?<br>
+<br>
+<span style="font-weight: bold;">Answer</span>:&nbsp; Depending on your
+system memory and processors Annocript
+could have any difficulties in downloading and <br>
+uncompressing big dimensions files. This is the reason why we suggest
+to run it only on powerful machines. Anyway you <br>
+can overcome this problem by seeing what is the file that is causing
+the problem and downloading it and uncompressing <br>
+it with system commands and put the resulting uncompressed files inside
+the ann_works/data/YEAR_MONTH folder created by <br>
+Annocript for the database. Then you just have to run again it as
+before. Annocript will check if the file has been <br>
+already downloaded or uncompressed and will not repeat the operation.<br>
+<br>
+To do this:<br>
+&nbsp; - download the file you think is giving problems;<br>
+&nbsp; - start the DB creation execution;<br>
+&nbsp; - stop Annocript when it is just gone in background (it will
+create the folder for the data);<br>
+&nbsp; - pick the version file (i.e uniref90.release_note) from the
+folder of the database you were just installing and put<br>
+&nbsp;&nbsp;&nbsp; it in the data folder;<br>
+&nbsp; - put in the db version file the ZIP files you previously
+downloaded;<br>
+&nbsp; - run again the DB creation of Annocript.<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: The library
+libstdc++5 is missing in Angle! What can I do?<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: fill the gap by
+installing it via terminal: sudo apt-get
+install libstdc++5<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: The library tcc:i386
+is missing in Cast! What can I do?<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: fill the gap by
+installing it via terminal: sudo apt-get
+install tcc:i386<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I had the following
+error:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ERROR [256]: an error occurred while
+extracting headers with fgrep from
+/home/francesco/ann_works/data/2014_01/uniref90.fasta to
+/home/francesco/ann_works<br>
+/data/2014_01/db_headers.txt. What does it means?<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: it could be that you
+ran once Annocript and it stopped on the
+download or uncompression of some file. <br>
+Then you ran it again and it is blocked unexpectedly. You should remove
+completely the folder 2014_01 with the data<br>
+from the ann_works/data folder. Then run it again...<br>
+----------------------------<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I received this error
+message: "Creating a file with all the
+headers in /home/francesco/ann_works/data/2014_03/db_headers.txt (it
+makes the db construction faster but it will need a while)...ERROR
+[-1]: an error occurred while extracting headers with fgrep from
+/home/francesco/ann_works/data/2014_03/uniprot_sprot.fasta to
+/home/francesco/ann_works/data/2014_03/db_<br>
+headers.txt: ? at DB_CREATION/db_creator.pm line 668"<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: With older machine but
+also unpredictably, it can happen that a
+system command does not run well with big dimensions<br>
+files. Annocript is programmed to try more than once the commands but
+if it blocks is preferrable that you manually start it again.<br>
+----------------------------<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I had the following
+error:<br>
+DBD::mysql::db commit failed: MySQL server has gone away at
+DB_CREATION/db_creator.pm line xxx, &lt;UNIGOFILE&gt; line 52159208.<br>
+...and Annocript stopped.<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: This error happen when
+the MySQL server itself stops the
+execution. We studied that this happened for us when the<br>
+uncompression procedure (during DB_CREATION) are not working and taking
+a very long time. To solve you need to restart Annocript<br>
+but first is very important that you see the log file and check if in
+the point of forced stop there are some failed process<br>
+(like uncompression). If everything is good then you should only
+restart again Annocript included the database creation.<br>
+To do this please only shift the file of uniref/uniprot_kb (depending
+on what you are creating) version from the current<br>
+'year_month' folder to the 'data' folder. Then restart Annocript using
+the same session.<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: Annocript suddenly
+stopped while it was uncompressing a file,
+giving the error "Out of memory!"<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: Try to download the
+file manually by going in the directory
+ann_works/data/YEAR_MONTH/ and using the <br>
+following code:<br>
+&nbsp;&nbsp;&nbsp; tar -zxvf yourfile.tar.gz if it is a ".tar.gx" file
+or <br>
+&nbsp;&nbsp;&nbsp; gunzip file.gz if it is a ".zip" or ".gz" file<br>
+&nbsp;&nbsp;&nbsp; Then, start Annocript again. It will find the
+uncompressed file and will not do the operation automatically.<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I cannot find anymore
+my fasta in the annocript working
+directory (e.g. ann_works)! What is happened to my transcriptome?<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: Be aware that if you
+erase the working folder, also you
+transcriptome will be removed. We strongly suggest to always keep a
+copy of the transcriptome in some other folder.<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: I received this
+error: "Fetch failed! HTTP response: 500
+Internal Server Error [500 LWP::Protocol::MyFTP: connect: Connection
+timed out] at USEFUL/utilities.pm line 886"<br>
+during the download of files. Is there a problem?<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: No problems if the file
+has been&nbsp; finally downloaded.
+Annocript does more than one trial to download the&nbsp; files and if
+it does not succeed, will give an error and blocks completely the
+execution.<br>
+----------------------------<br>
+<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>:&nbsp; I received this
+error:<br>
+Please check if
+[ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz]
+is a correct URL. Annocript will continue...<br>
+The links above seems to not work. You should check them in a browser
+and if (1) you are sure they work or (2) you never modified this links
+in the configuration file, then there is something in your connection
+that is not working. In this last case since Annocript uses more than
+one technique to download the files you can leave it running. Continue?
+(y or n)<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: This error comes when a
+problem with sending the request from
+PERL function is occurred. Annocript uses different PERL functions to
+download the files so you should check if this links are good an
+proceed with the running. If the connection is not working well
+Annocript will stop during the download of files.<br>
+----------------------------<br>
+<br>
+----------------------------<br>
+<span style="font-weight: bold;">Question</span>: When I was choosing
+the session to use, Annocript wrote this:<br>
+"Session astropecten2 is not valid. Do you want to remove it?(y or n)
+n". What happened?<br>
+<br>
+<span style="font-weight: bold;">Answer</span>: Annocript controls
+everytime if the session you want to use is
+valid. The check consists in looking if all the folders constituting a
+valid session are present. They are: log, stats, data, output, gff. If
+something is missing Annocript will stop.<br>
+----------------------------<br>
+<br>
+For any kind of information or suggestion please find me at: francesco
+[dot]
+musacchia [at] szn [dot]it<br>
+<br>
+<h5 style="text-align: center;"><a href="../index.html">ReadMe</a> - <a href="INTRO.html">Introduction</a> - <a href="INSTALL.html">Install</a>
+- <a href="TUTORIAL.html">Tutorial</a> - <a href="OUTPUT.html">Output</a>
+- <a href="ADVANCED_USAGE.html">Advanced Usage</a> - <a href="file:///home/frank/Desktop/SZN_Work/code/Annocript0.2.4/HTML_GUIDE/FAQ.html">FAQ
+</a>- <a href="HISTORY.html">History</a><br>
+</h5>
+<h5 style="text-align: center;">Annocript 0.2 - Copyright of
+Bioinformatics Lab SZN Naples</h5>
+<br>
+<unigofile></unigofile>

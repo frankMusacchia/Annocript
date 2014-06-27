@@ -1,0 +1,97 @@
+# File configuration for The user of Annocript 0.2
+
+# READ CAREFULLY!!!
+# This file has been written with a specific sintax. 
+# The variables MUST stay in the format: variable = value
+# A series of hashes (#########) closes the parameters to read
+# Parameters of BLAST programs without a value assigned will not be used
+# When you want to execute something you have to write YES (in upper case) or NO otherwise
+# other strings will give error.
+
+##############################
+fastaSeqs = trial_transcriptome.fasta
+
+#What have to do Annocript
+doDbCreation = YES
+doExecutePrograms = YES
+doBuildOutput = YES
+extractStatistics = YES
+
+#What programs to execute
+doBlastx = YES
+doRpstblastn = YES
+doBlastn = YES
+doPortrait = YES
+doDna2Pep = YES
+
+#Print the GFF files and permits the use of the GFF database. Use YES only if you need them.
+useGFFDB = NO
+
+#BLASTX and BLASTP PARAMETERS (use word_size 4 and threshold 18 to reduce comput time)
+#(outfmt can be only 0 with this version of Annocript)
+word_sizeX = 4
+evalueX = 1E-5
+num_descriptionsX = 5
+num_alignmentsX = 5
+max_target_seqsX =
+num_threadsX = 10
+thresholdX = 18
+
+#BLASTN PARAMETERS
+word_sizeN = 
+evalueN = 0.00001
+num_descriptionsN = 1
+num_alignmentsN = 1
+max_target_seqsN =
+num_threadsN = 4
+thresholdN =
+
+#RPSBLAST and RPSTBLASTN PARAMETERS 
+word_sizeRPS = 
+evalueRPS = 0.00001
+num_descriptionsRPS = 20
+num_alignmentsRPS = 20
+max_target_seqsRPS =
+thresholdRPS =
+
+#only BLAST results with evalue lower than this will be shown in the tabular output
+evalMax = 0.00001
+
+#Number of threads for parallel executions (Actually used for RPSBLAST)
+threads4Parallel = 10
+
+#DNA2PEP PARAMETER (default is 'none')
+d2pMode = none
+
+#PORTRAIT CONSTRAINS
+#to avoid stochastic interruption of Portrait split the transcriptome in N files
+split_num = 5000
+#Minimum and maximum lengths for a transcriptome to work with Portrait
+max_port_seq_length = 100000
+min_port_seq_length = 100
+#Maximum percentage of Ns that can be present or Portrait will not work
+max_perc_ns = 20
+
+#Thresholds to be non-coding
+#Minimum Portrait score
+NCThresh = 0.95
+#Maximum length of the ORF
+NCORFLength = 100
+#Minimum length of the transcript
+NCSeqLength = 200
+
+#FIXED PARAMETERS (You should set only once)#
+
+#Database
+mySqlUser = [INSERT_MYSQL_USERID]
+mySqlPass = [INSERT_MYSQL_PASSWORD]
+
+#UNIPROT informations for access
+uniprotWebUser = anonymous
+uniprotWebPass = [INSERT_YOUR_MAIL_ADDRESS]
+
+#Programs Paths
+blastPath = /home/francesco/bin/ncbi-blast-2.2.29+/bin/
+portraitPath = /home/francesco/bin/portrait-1.1/portrait-1.1.pl
+dna2pepPath = /home/francesco/bin/dna2pep-1.1/dna2pep.py
+##############################

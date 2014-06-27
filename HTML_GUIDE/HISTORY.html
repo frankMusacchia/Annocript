@@ -1,0 +1,264 @@
+
+<big><big><big>Annocript 0.2 - History</big></big></big><br>
+<br>
+In version 0.2 the software creates a database of protein downloading:<br>
+&nbsp;&nbsp; &nbsp;- uniprot Knowledge Base and merging the swiss-prot
+and Tremble datasets;<br>
+&nbsp;&nbsp; &nbsp;- or Uniref90 and adding the results of Swiss-prot
+too.<br>
+<br>
+All the Annocript has been divided in four main modules:<br>
+&nbsp;&nbsp; &nbsp;- the DB creation, that is needed for the creation
+of a large database with informations taken from Uniprot,<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Uniref,...etc, about proteins<br>
+&nbsp;&nbsp; &nbsp;- the programs execution, that is a script that
+permits the executions of the various program that we want to<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; use (blastx, blastn, portrait,
+..etc). Its purpose is to execute programs and store outputs.<br>
+&nbsp;&nbsp; &nbsp;- the output creation with GFF3 use, this is the
+part of Annocript where the programs output is extracted and<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; inserted in a final output table.
+This output can also be converted in GFF3 files and stored with BioPerl;<br>
+&nbsp;&nbsp; &nbsp;- the creation of statistics is a script that
+extract some files with statistics from the output table and<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; creates a web page with plots.<br>
+<br>
+Initially Annocript was given the version 2.0 because of the first
+version by Swaraj. In the moment of the publication<br>
+Annocript has been given the version 0.2.<br>
+<br>
+Annocript2.0.1: it uses 3 folders with 3 different execution based on 3
+differents config files. Here there's the problem that the output files
+have different name with the same files that are<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; used from another execution as
+input.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Moreover the use of 3 file of
+configuration is too much heavy for usability of the<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; software.<br>
+<br>
+Annocript2.0.2: it uses only 1 configuration file and then the first
+script is the executor that calls all other scripts and manages their
+config hashes. The programs have to save all the file in a folder
+data.&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;For each execution now the
+software asks for the folder of user session. This could be existent or
+not. It can be created and overwrited.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; In this version I've also done
+some changes to the software to keep it more readable<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; and fast in example changing the
+database names.<br>
+<br>
+Annocript2.0.3: I decided to make some changes to the database: the
+mapping table will have the id for each enzymeId since I was making two
+query each time and the computational time is very expensive. This
+is&nbsp;&nbsp; &nbsp;exactly in the step where I build the final table
+in GFF3_AND_OUTPUT and the system does<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; a lot of queries to find what is
+the best between the trembl and sp result.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; The problem is how to reduce this
+computational time. So I started a new version.<br>
+<br>
+Annocript2.0.3b: this version is characterized from the different
+production of the final table. It was all done by accessing the GFF
+database and it was very expensive. The time to create the table only
+was 1,5 days.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; So we decided to use other
+mechanisms and finally I designed an hash from where data are taken
+instead that make queries. This has been definitively more efficient.
+All the<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; script for GFF producing and
+final table occurs 3-4 hours.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; In this version has been
+established that there will be one only folder for all the data that is
+computed by the EXECUTE_PROGRAMS script when the blasts have to access
+the databases (created by makeblastdb and the rFam and CCD).<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; This folder is located in the
+main folder of Annocript. (Fri, 07 december 2012)...Annocript is
+becoming a monster...<br>
+<br>
+Annocript2.0.4: this is a version that we were using a lot. It was
+almost complete in all the initially designed <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; functionalities and it
+contains possibility to compute some statistics on the output files and
+creates<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; also some plots with
+R.&nbsp;&nbsp; &nbsp;All these plots are put in a HTML file with also
+the statistics.<br>
+<br>
+Annocript2.0.5: in this version two additions have been done. The first
+is that you can have different files of output <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; for the BLAST programs. In
+this way one can choose to divide the file of transcripts and run them
+in<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; parts on different machines
+or processors. Another main addition is that now Annocript can be ran in<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; background. We used a perl
+script that executes&nbsp;&nbsp; &nbsp;the configuration and another
+script that runs all the <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; pipeline in background.<br>
+<br>
+Annocript2.0.6: in this version I used only one configuration hash to
+memorize variables. Then with Remo we seen the <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; code together and some
+adjustement were done.&nbsp;&nbsp;&nbsp;<br>
+<br>
+AnnocriptPub: this is a version wrote for the publication. A lot of IF
+has been removed to permit the continue <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; execution of all the
+pipeline without too questions to the user. Some other improvements are:<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; to check if a database
+exists we used&nbsp; the query 'show database like'; used two log file
+to know what<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; elements of the GOMapping
+are not found in the UNIPROT database; the module gff3_utilities has
+been<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; removed and the functions
+to have the ORF file have been put in the gff3_manager module; built the<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; functions dlAndExtract to
+download and extract a compressed file; for the uncompression of files
+has<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; been now used a native
+function of PERL that finds the compression type (subroutine
+extract_file);<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; a new function is also
+extract name to extract the name of the file without extension
+(extractName);<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; the two functions similar
+to create a NonCoding info file and to know what is the number of non
+coding<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; sequences have been joined
+in one only;the query coverage and hit coverage have been added to the
+final<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; table&nbsp; for both
+swiss-prot and trembl results;<br>
+<br>
+AnnocriptPub2.0.10: in this version we changed the way the mappingTable
+is created. The INSERT with the option that if the field is already
+present it will be updated was too expensive in computational terms so
+we decided to use an hash to build during the reading of the files.
+This results in a faster process since there is only one access to the
+database. The one to upload the table created thanks to the hahs. We
+added the <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; possibility to use the UNIREF
+database.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; So a new function for the parsing
+has been added (createUnirefDB).<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Now Annocript searches for both
+an UNIREF and an UNIPROT_KB database and asks what to use.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; An error has been corrected in
+the output_and_stats module since it was counting the GO occurrences<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; multiple times for the same
+sequence annotation.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; A new field has been added to the
+final table saying if the sequence is coding or non-coding for<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Annocript. This is done by
+changing the printAllInfo<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; subroutine in the module and by
+checking the constrains for each of the blastx, rps, blastn outputs and<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; the longest ORF lenght and the
+non coding probability given by portrait.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; This resulted also in the
+possibility to change completely the function createNCInfoFile that was<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; doing all these checks and now
+can simply look for the corresponding field to create the file.<br>
+<br>
+AnnocriptPub2.0.11: in this version I read the code with my supervisor
+Remo and we corrected some stuffs in <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; output_and_stats.pm: the count of
+annotated sequences is done during the building the array of all<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; results; the non-codingness of a
+sequence is computed during the construction of the final output table<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; since we need to put a new field
+with this flag; the function execute_stats has been modified since it<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; was using equal pieces of
+code:&nbsp; the subroutines extractGOstats, printOutGOStats and
+extractCDDstats<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; have been created to reduce the
+amount of code repeated;<br>
+<br>
+AnnocriptPub2.0.12: in this version we put also the first part of the
+print in the LOG file because it was not there <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; and can be useful for the user:
+functions annoPrint and annoDie have been introduced in the annocript.pl<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; file for this.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; There was an error in the count
+of the enrichments. It has been solved.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; In this version also have been
+extracted some common use functions from the modules and inserted in a<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; different module called
+utilities.pm.<br>
+<br>
+Annocript 2.0.17: Here Annocript has been corrected after the
+alpha-test.<br>
+<br>
+Annocript 2.0.18: This is a version with some other corrections. Now
+Annocript is ready for the beta-test. Annocript has also been presented
+to BITS2014 and has been awarded in the best poster competition.<br>
+<br>
+Annocript 0.2.1: After the beta test some corrections had been done. In
+particular we had the problem with the download using LWP and with Head
+function to simply access a link and see if it is good. The problem was
+of the institute so I decided to insert an alert. Some corrections have
+been done in the user guide and little problem came out are all solved.
+Another problem we had with the use of the Extract file function that
+is having a bad behaviour. The uncompression on slower machines is
+often blocked. I decided to write my own function to uncompress the
+files. <br>
+The problems in this part are mostly coming from the usage of Annocript
+on different machines. <br>
+<br>
+Annocript 0.2.2: We finished to correct the software and on 1th April
+2014 I gave a presentation with all the issues had during the beta-test
+and Remo and Swaraj gave suggestion to implement a table where one can
+write the table if it has been well written or Nothing otherwise.
+If&nbsp; it is there, the table will&nbsp; not be built again in a
+different Annocript execution.<br>
+The second suggestion is to use the CUT command to cut the mapping file
+from Uniprot to catch only the GO ids. This should reduce the
+computational time<br>
+<br>
+Annocript 0.2.3: The second Annocript day has been done but the process
+stopped at the loading of the database in less powerful systems. It was
+an error in system execution with a 'mysqlimport' not taking in account
+that the string interpolation was reading '\n' as newline and '\t' as a
+tab. In this new version different things are changed. <br>
+&nbsp;&nbsp; &nbsp;-the table upload in db is did first with DBI, thus
+a query to DB, and if this does not work (you can have an error: DBI
+error: The used command is not allowed with this MySQL version) a
+system call is doing the same job;<br>
+&nbsp;&nbsp; &nbsp;-system calls now are did with a set of controls
+shown on the PERL reference website to be more<br>
+specific;<br>
+&nbsp;&nbsp; &nbsp;-tables are not more in the Annocript folder while
+they are being generated. Instead they will be in the data/YEAR_MONTH
+folder in an apposite TABLE folder;<br>
+&nbsp;&nbsp; &nbsp;-the config hash before was saved in the Annocript
+folder. Now it will stay in the SESSION/DATA folder and it is passed as
+argument to annocript_executor.pl;<br>
+&nbsp;&nbsp; &nbsp;-in Annocript folder now compare only few files. Now
+folders contain the useful files and script:<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; - CONFIGURATION: contains
+everything regarding the configuration<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; - USEFUL: contains the scripts
+utilities.pm, utils.pm and rRNA zip file<br>
+<br>
+Annocript 0.2.4: Annocript till this version was using a lot of memory
+to create the mapping table. In this new version we decided to insert a
+control and if there is enough memory then Annocript will use a big
+hash to store information while indeed it will use queries to access
+the database.<br>
+In this version also has been completely removed the use of the file
+with Counts since a single file is not useful.<br>
+<br>
+<br>
+For any kind of information or suggestion please find me at: francesco
+[dot]
+musacchia [at] szn [dot]it<br>
+<br>
+<h5 style="text-align: center;"><a href="../index.html">ReadMe</a> - <a href="INTRO.html">Introduction</a> - <a href="INSTALL.html">Install</a>
+- <a href="TUTORIAL.html">Tutorial</a> - <a href="OUTPUT.html">Output</a>
+- <a href="ADVANCED_USAGE.html">Advanced Usage</a> - <a href="FAQ.html">FAQ </a>- <a href="file:///home/frank/Desktop/SZN_Work/code/Annocript0.2.4/HTML_GUIDE/HISTORY.html">History</a><br>
+</h5>
+<h5 style="text-align: center;">Annocript 0.2 - Copyright of
+Bioinformatics Lab SZN Naples</h5>
+<br>
+<br>

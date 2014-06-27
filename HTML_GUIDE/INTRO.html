@@ -1,0 +1,120 @@
+
+<big><big><big>Annocript 0.2 - Introduction</big></big></big><br>
+<br>
+<span style="font-style: italic;"><span style="font-style: italic;">Annocript</span></span>
+is a pipeline that
+can be used to manage and give a consistence in terms of annotation to
+de-novo generated transcriptomes. It executes several <span style="font-weight: bold;">BLAST</span> analysis
+steps and builds annotations using information taken from UniProt, NCBI
+Conserved Domain Database and Nucleotide divisions (CDD), Gene
+Ontology, and
+the Enzyme Commission. <span style="font-style: italic;">Annocript</span>
+also perform analyses based on
+<span style="font-weight: bold;">PORTRAIT</span> software to measure
+the noncoding potential of RNA sequences.
+<span style="font-style: italic;">Annocript</span> works with both
+nucleotides and peptides. If you use proteins
+different <span style="font-weight: bold;">BLAST</span> programs will
+be ran while <span style="font-weight: bold;">PORTRAIT</span> and <span style="font-weight: bold;">DNA2PEP</span> will
+not, since they work only with nucleotides.<br>
+<br>
+Notice: <span style="font-style: italic;">Annocript</span> has been
+tested only on Linux Ubuntu 64 bit Systems.
+We are not sure of what will happen on different operating systems and
+machines!!
+<br>
+<br>
+<big><big>Methods</big></big><br>
+<br>
+The pipeline allows the creation of a comprehensive
+user-friendly table containing all the annotations produced for each
+transcript. The proteins most similar to the transcripts are given by
+the BLASTx (BLASTp if you use peptides) analyses against the Uniprot
+databases Swiss-Prot and coupled with one you can choose among Trembl,
+Uniref100, Uniref90 and Uniref50.
+Uniprot matches can also be used to screen for specific contamination
+in the sequenced samples.
+BLASTn (tBLASTn) against a custom subset of the NCBI nucleotide
+database and the RFAM database allows to check for ribosomal and other
+short noncoding RNAs. rpstBLASTn (rpsBLAST) returns information about
+the CDD within each transcript. PORTRAIT measures the probability
+that a sequence is coding or non-coding. In addition, each transcript
+is associated to GO terms, EC number and several descriptions trough
+cross-mapping of the obtained matches. A final heuristic, based on the
+integration of all the results, makes <span style="font-style: italic;">Annocript</span>
+capable to also
+identify bona-fide noncoding transcripts. An HTML page can be created
+containing summary plots and descriptive statistics of a given
+transcriptome. GFF3 outputs allow the integration of the annotations in
+genome browsers and easy file exchange trough current standard formats
+and a GFF database permits to rapidly access results using
+bioinformatics API such as BIOPERL. <br>
+<span style="font-style: italic;"><br>
+Let's use it! </span><br>
+<br>
+When you decide to
+use <span style="font-style: italic;">Annocript</span> you can choose
+to run one or all of the following 4
+steps. <br>
+<ol>
+  <li>Database creation: it creates a large database with informations
+about proteins from UNIPROT (creation of the source annotation database
+is mandatory); <br>
+  </li>
+  <li>Execution of programs: it runs the BLAST programs,
+PORTRAIT to measure the noncoding potential and DNA2PEP to search for
+the longest ORFs; <br>
+  </li>
+  <li>Output creation: it creates a large file with the
+programs results and create a GFF database and GFF3 files;</li>
+  <li>Creation of
+statistics: this creates a web page with statistics. You should create
+the database only once and then <span style="font-style: italic;">Annocript</span>
+will use it. (You don't need
+to repeat the creation a second time unless UNIPROT has produced
+another version of UNIPROT knowledge base and you want to update it).
+You should then run the programs to obtain the analysis output. To
+customize the execution you have to use the configuration file. <br>
+  </li>
+</ol>
+<big><big>Configuration Files </big></big><br>
+<br>
+<span style="font-style: italic;">Annocript</span> contains two
+different configuration
+files. One is for users and the other is used by <span style="font-style: italic;">Annocript</span> to choose
+names and other stuff that should not be changed by the generic
+<span style="font-style: italic;">Annocript</span> user. However,
+experienced power-users can see how to use the
+latter <a href="ADVANCED_USAGE.html">ADVANCED_USAGE</a> section of the
+Guide. By modifying the parameters
+in the user configuration file you can run only some programs or only
+have a database for doing analysis using your scripts, you can set the
+parameters and the cutoff for the analysis and so on. <br>
+The user
+configuration file is divided in 3 main parts. They are the following: <br>
+<ol>
+  <li>the first one is composed by simple flags to indicate which
+programs
+to run and which not; <br>
+  </li>
+  <li>the second part is composed of parameters the
+inputs to be used in the programs used by <span style="font-style: italic;">Annocript</span>;</li>
+  <li>the last part
+is with paths to the programs and to the online databases.</li>
+</ol>
+<br>
+If you get some error during the installation or the running of
+Annocript please always refer to the <a href="FAQ.html">FAQ</a> page!<br>
+For any kind of information or suggestion please find me at: francesco
+[dot]
+musacchia [at] szn [dot]it<br>
+<br>
+<h5 style="text-align: center;"><a href="../index.html">ReadMe</a> - <a href="file:///home/frank/Desktop/SZN_Work/code/Annocript0.2.4/HTML_GUIDE/INTRO.html">Introduction</a>
+- <a href="INSTALL.html">Install</a> - <a href="TUTORIAL.html">Tutorial</a>
+- <a href="OUTPUT.html">Output</a> - <a href="ADVANCED_USAGE.html">Advanced
+Usage</a> - <a href="FAQ.html">FAQ </a>- <a href="HISTORY.html">History</a><br>
+</h5>
+<h5 style="text-align: center;">Annocript 0.2 - Copyright of
+Bioinformatics Lab SZN Naples</h5>
+<br>
+<br>

@@ -1,0 +1,199 @@
+                                        |------------------------------------| 
+                                        |     Annocript 0.2  installation    | 
+                                        |------------------------------------| 
+
+
+-------------------- 
+Install Dependencies 
+-------------------- 
+
+To work, Annocript needs: 
+  - MySQL database server (> ver5.5) 
+You also need a MySQL client with working user account with user-id and password)
+  - PERL (http://www.perl.org/get.html);
+
+  - PERL MODULES: you need the following PERL modules: 
+                  -readkey.pm 
+                  -Parallel/ForkManager.pm. 
+
+                  To install them on an Debian derivate linux distribution use from a terminal: 
+                    sudo apt-get install libterm-readkey-perl 
+                    sudo apt-get install libparallel-forkmanager-perl 
+
+  - BIOPERL: (http://www.bioperl.org/wiki/Getting_BioPerl); 
+
+  - PYTHON: (http://www.python.org/download/); 
+
+  - R: (http://www.r-project.org/). 
+
+Then you have to download and install the programs that Annocript uses: BLAST, PORTRAIT and DNA2PEP. 
+Download them at: 
+        BLAST : ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ 
+        PORTRAIT: http://bioinformatics.cenargen.embrapa.br/portrait/ 
+        DNA2PEP:  http://www.cbs.dtu.dk/services/VirtualRibosome/download.php 
+
+Read carefully the instructions below to install them. 
+
+TWO THINGS TO REMEMBER!! 
+  1. Since there have experienced problems with PORTRAIT on Linux based systems when analyzing very large and complex set of sequences, we included a modified version to the Annocript installation. This does not change the algorithm, it simply affect the way in which sequences are handled. Therefore you can avoid to download PORTRAIT from the program link and rather use the sources that you can find in the Annocript directory DL_PROGRAMS. Moreover, DNA2PEP comes with a link to Python that is incorrect. We adjusted it in the corresponding dna2pep.py script but please remember this fact if you get an error. 
+ Look inside the 'DL_PROGRAMS' folder to find both.   We suggest to install BLAST+, Portrait and dna2pep in a common bin directory of your file system (/home/francesco/bin). 
+
+
+  2. Programs that can be used without installation (provided that you download the proper compiled version): BLAST programs and DNA2PEP don't need to be installed for Annocript as it uses 
+    full path to access the executables. If you plan to use BLAST programs later you can choose a manual installation. 
+    Instead you will need to install PORTRAIT and its dependencies. 
+
+--------------------------------------------------- 
+Instructions to install BLAST, PORTRAIT and DNA2PEP 
+--------------------------------------------------- 
+
+Download the file on the main page of Annocritp on GitHub. Then go to the folder where you downloaded it, suppose 
+"/Download", and rename and unzip the file: 
+
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/Downloads$ cp Annocript-master.zip Annocript.zip 
+              frank@compaq2:~/Downloads$ rm Annocript-master.zip 
+              ---------------- TERMINAL ------------------ 
+
+Put the Annocript zipped file (Annocript-master.zip) in your user directory and uncompress it. 
+Please answer N, if/when it asks to replace the names. 
+  
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/Downloads$ mv Annocript.zip .. 
+              frank@compaq2:~/Downloads$ cd .. 
+              frank@compaq2:~/francesco$ unzip Annocript.zip 
+              Archive:  Annocript.zip 
+              9cc0fd88bf6b6d34ad869d3f5ba91d0428ab7a8a 
+              replace Annocript-master/DB_CREATION/db_creator.pm? [y]es, [n]o, [A]ll, [N]one, [r]ename: N 
+              ---------------- TERMINAL ------------------ 
+
+Create a directory 'bin' for all the softwares: 
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/francesco$ mkdir bin 
+              ---------------- TERMINAL ------------------ 
+
+
+Now you will enter the Annocript directory to configure and install Portrait and DNA2PEP: 
+
+To install please execute the following steps. Start copying both in the bin directory just created. 
+
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/francesco$ cp Annocript/DL_PROGRAMS/portrait-1.1.tar.gz bin 
+              frank@compaq2:~/francesco$ cp Annocript/DL_PROGRAMS/dna2pep.tar.gz bin 
+              frank@compaq2:~/francesco$ cd bin 
+              ---------------- TERMINAL ------------------ 
+
+
+*Portrait installation 
+
+
+Portrait makes use of 3 different programs to run: CAST, ANGLE, LIB_SVM. Each of the packages needs to be present and 
+working. Cast and Angle are simply two folders with executable files. You need only to uncompress and place them in the 
+Portrait folder. 
+
+Unpack portrait.tar.gz:  
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/francesco/bin$ tar -zxvf portrait-1.1.tar.gz 
+              ---------------- TERMINAL ------------------ 
+
+You will find the three programs in the Portrait folder. So, go there: 
+
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/francesco/bin$ cd portrait-1.1 
+              frank@compaq2:~/francesco/bin/portrait-1.1$ 
+              ---------------- TERMINAL ------------------ 
+
+Of the three packages in Portrait's folder only libsvm must be compiled. Go in the corresponding folder and compile it: 
+
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/francesco/bin/portrait-1.1$ cd libsvm-2.84 
+              frank@compaq2:~/francesco/bin/portrait-1.1/libsvm-2.84$ make 
+              ---------------- TERMINAL ------------------ 
+
+Then go in the portrait folder and type: 
+
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/francesco/bin/portrait-1.1/libsvm-2.84$ cd .. 
+              frank@compaq2:~/francesco/bin/portrait-1.1$ perl ./portrait-1.1.pl 
+              ---------------- TERMINAL ------------------ 
+              
+The script for the configuration will run. This is how it will appear: 
+
+              ---------------- TERMINAL ------------------ 
+              Welcome! Now starting configuration process. 
+              Directory where PORTRAIT is located (e.g. /home/user/program/): /home/francesco/bin/portrait-1.1/      
+              Directory where LIBSVM is installed (e.g. /home/user/libsvm-2.84/): /home/francesco/bin/portrait-1.1/libsvm-2.84 
+              Directory where CAST is installed (e.g. /home/user/cast-linux/): /home/francesco/bin/portrait-1.1/cast-linux  
+              Directory where ANGLE is installed (e.g. /home/user/angle/): /home/francesco/bin/portrait-1.1/angle 
+              Running ANGLE 32-bit version. 
+              Config process successful! Run again to start working. 
+              ---------------- TERMINAL ------------------ 
+              
+If you have any problems during the installation please see FAQ.txt or contact us: francesco.musacchia@szn.it 
+
+
+
+*DNA2PEP Installation 
+
+It don't need to be installed, only uncompress in the bin folder you created. Here we will also change 
+permissions of the .py file or Annocript will not find it. 
+ 
+(If you don't use the version included in Annocript, please modify the first row of the dna2pep.py with the correct 
+path for Python (i.e. /usr/bin/python)) 
+
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~/francesco$ cd bin 
+              frank@compaq2:~/francesco/bin$ tar -zxvf dna2pep.tar.gz 
+              frank@compaq2:~/francesco$ cd dna2pep 
+              frank@compaq2:~/francesco/dna2pep$ chmod 755 dna2pep.py 
+              ---------------- TERMINAL ------------------ 
+
+If you have any problems during the installation please see FAQ.txt or contact us: francesco.musacchia@szn.it 
+
+
+
+*NCBI-BLAST Installation 
+              
+
+You can both uncompress the archive compiled for your architecture and put it in the /bin folder or follow the NCBI instructions for the installation. 
+
+
+In Ubuntu Linux you can also install it via terminal: 
+
+              ---------------- TERMINAL ------------------ 
+              sudo apt-get install ncbi-blast+ 
+              ---------------- TERMINAL ------------------ 
+
+
+If you have any problems during the installation please see FAQ.txt or contact us: francesco.musacchia@szn.it 
+
+
+----------------- 
+Install Annocript 
+----------------- 
+
+To install Annocript we will create a folder where to save all the files and folder produced during the analysis. Then we will run the install.pl script from 
+the Annocript folder. 
+
+
+              ---------------- TERMINAL ------------------ 
+              frank@compaq2:~$ mkdir ann_works 
+              frank@compaq2:~$ cd Annocript 
+              frank@compaq2:~$ perl install.pl 
+
+This will ask to you the full path to the working folder you just created: 
+
+              ---------------- TERMINAL ------------------ 
+              This script will prepare Annocript to work in your directory. 
+                
+              Are you sure you want to enjoy this software?(y or n) 
+                y 
+              Write an existing complete path where you want to play with Annocript: /home/francesco/ann_works/ 
+                
+              Done! Now you can start Annocript from this folder! 
+              ---------------- TERMINAL ------------------ 
+
+Notice: The install.pl script simply creates a file (folders.txt) where are written the folders that Annocript will use. 
+If the folders.txt file is not there Annocript cannot work. 
+
+To see how to use the first time Annocript go to TUTORIAL.txt
