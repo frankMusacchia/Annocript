@@ -1,0 +1,160 @@
+# File configuration for Annocript 0.2
+# It contains parameters that are used very often by Annocript but very rarely by the user. 
+# We collected the parameters in RARELY CHANGED which means that an expert user can decide to change
+# and VERY RARELY CHANGED because it is very rare that an user wants to change
+# READ CAREFULLY!!!
+# This file has been written with a specific sintax. 
+# The variables MUST stay in the form: variable = value
+# A series of hashes (#########) closes the parameters to read
+# When you want to execute something you have to write YES (in upper case) or NO otherwise
+# other strings will give error.
+# THIS FILE SHOULD BE CHANGED ONLY IF YOU KNOW PERFECTLY WHAT YOU ARE DOING!!!
+##############################
+
+
+#RARELY CHANGED PARAMETERS
+#Links to Files
+#Uniprot databases are also present on expasy and ebi. Please use these domains if you want.
+swissprotDBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+tremblDBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_trembl.fasta.gz
+uniprotVerLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/reldate.txt
+GODBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz
+GOTermsLink = http://www.geneontology.org/doc/GO.terms_alt_ids
+enzymeDBLink = ftp://ftp.expasy.org/databases/enzyme/enzyme.dat
+cdDBLink = ftp://ftp.ncbi.nih.gov/pub/mmdb/cdd/little_endian/Cdd_LE.tar.gz
+rfamDBLink = ftp://ftp.sanger.ac.uk/pub/databases/Rfam/CURRENT/Rfam.fasta.gz
+unirefDBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref90/uniref90.fasta.gz
+unirefVerLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref90/uniref90.release_note
+cdTableLink = ftp://ftp.ncbi.nih.gov/pub/mmdb/cdd/cddid_all.tbl.gz
+pathwaysTableLink = http://www.uniprot.org/docs/pathway.txt
+uniprotOrgListLink = http://www.uniprot.org/docs/speclist.txt
+pfam2GOLink = http://geneontology.org/external2go/pfam2go
+
+#File with Ribosomial sequences (Contained in Annocript folder)
+ourRiboSeqs = rRNA_0_153330.fa.gz
+
+#If active (YES) permits to keep in memory all the tables that have been used to generate the database
+#You can use to see if the construction has been well done
+keepTempFiles = YES
+
+#This is a threshold. If you have more than this memory Annocript will use more and be faster.
+bigMemory = 20
+
+#A separator for different results in the same field of the table
+separator = ]---[
+
+#Columns of Uniref ids in the idmapping.tab file
+UniRef100PosIdMap = 8
+UniRef90PosIdMap = 9
+UniRef50PosIdMap = 10
+
+
+#PORTRAIT CONSTRAINS
+#to avoid stochastic interruption of Portrait split the transcriptome in N files
+split_num = 5000
+#Minimum and maximum lengths for a transcriptome to work with Portrait
+max_port_seq_length = 100000
+min_port_seq_length = 100
+#Maximum percentage of Ns that can be present or Portrait will not work
+max_perc_ns = 20
+
+
+##VERY RARELY CHANGED 
+#Names given to the output files. Other information will be concatenate by Annocript
+outFileName = ann_out.txt
+outFiltered = filt_ann_out.txt
+ORFFastaFileName = orf_info.fasta 
+NCOutFile = lncRNAseqs.fasta
+codingOutFile = codingSeqs.fasta
+gcContentFile = out.geecee
+
+#Name of the file with ribosomal sequences
+rfamDB = ncRNA.fa
+
+#Modify this value if you want to get plots showing a different domain database ids 
+#Possible values: cdd, cog, kog, pfam, prk, smart, tigr
+cdName4Expression = pfam
+
+#Names of the folders used by Annocript (A change will compromise Annocript)
+DBCreationFolder = DB_CREATION
+ProgExecFolder = PROGRAMS_EXEC
+GFFAndOutputFolder = GFF3_AND_OUTPUT
+usefulFolder = USEFUL
+guideFolder = GUIDE
+configFolder = CONFIGURATION
+
+#Database info
+platform = mysql
+host = localhost
+port = 3306
+
+#Programs output names
+rpstblastnOut = rpstblastnOut
+blastxSPOut = blastxSPOut
+blastxTROut = blastxTROut
+blastxUnirefOut = blastxUnirefOut
+blastnOut = blastnOut
+portraitOut = portraitOut
+dna2pepOut = dna2pepOut
+outCount = countOut
+
+#Other names
+outHashFile = outHashFile.hash
+parsingFilePath = db_headers.txt
+filtMappingFile = filtMappingFile.txt
+R_plot_script = tables_2_barplot.R
+R_seqs_stats_script = ann_seqs_stats.R
+R_log_file = R.log
+
+#Database names
+gffDB = gffDB
+
+#Stats output files names
+bpStatsFile = GO_bp
+mfStatsFile = GO_mf
+ccStatsFile = GO_cc
+bpStatsFileDom = GO_dom_bp
+mfStatsFileDom = GO_dom_mf
+ccStatsFileDom = GO_dom_cc
+cdStatsFile = CD
+closerOSFile = closer_os_table.txt
+pathwaysL1File = pwl1
+pathwaysL2File = pwl2
+pathwaysL3File = pwl3
+ATGCPercFile = ATGC_Percentages.txt
+
+#Maximum length of descriptions in plots
+maxLengthDescs = 50
+
+#BLAST databases names
+swissProtDB = uniprot_sprot.fasta
+tremblDB = uniprot_trembl.fasta
+
+#BLAST output type (only this value is actually permitted)
+blastOutType = blast
+
+#GFF3 Output file names
+blastxGFF3FileName = blastx_out.gff
+blastxTRGFF3FileName = blastxTremble_out.gff
+blastxSPGFF3FileName = blastxSprot_out.gff
+blastxUnirefGFF3FileName = blastxUniref_out.gff
+rpstblastnGFF3FileName = rpstblastn_out.gff
+blastnGFF3FileName = blastn_out.gff
+nonCodingAlgorithm = portrait
+nonCodingGFF3FileName = portait_out.gff
+orfAlgorithm = dna2pep
+orfGFF3FileName = dna2pep_out.gff
+
+#LOG FILES
+headParsNAValues = headParsNAValues.log
+uniprotGenesNotPresent = genesNotPresent.log
+
+#HTML PAGES
+htmlHome = index.html
+htmlAnnotStats = annot_stats.html
+htmlSeqStats = seq_stats.html
+AnnocriptLogo = a_logo.png
+
+#EXTERNAL PROGRAMS
+faSomeRecords = faSomeRecords
+#############################
