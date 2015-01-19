@@ -307,6 +307,8 @@ Error in library(RColorBrewer) :
 ```
 
 *Answer*: *Annocript* was not able to install a necessary library to add colors to your plots. Please try to install it manually going in the R console and typing: install.packages('RColorBrewer'). Then restart *Annocript* with only extractStatistics = YES
+
+
 ---------------------------------------------------------------------------------
 
 If you get some error during the installation or the running of *Annocript* please see the FAQ page of the user guide or ask on the google group: https://groups.google.com/forum/#!forum/annocript
