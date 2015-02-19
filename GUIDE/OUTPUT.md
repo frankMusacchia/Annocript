@@ -28,11 +28,11 @@ Inside the JOBS folder you will see all the sessions you saved as folders. Suppo
     - the longest ORF
   - S1_uniref_2014_04_codingSeqs.fasta: a fasta file with all the coding sequences as found by *Annocript*. See below to understand.ì
 
-- GFF: this is a folder containing the output from blast programs given in GFF3 format: rpstblastn_out.gff, blastn_out.gff, portait_out.gff, blastxUniref_out.gff, blastxSprot_out.gff, dna2pep_out.gff. They are overwritten if the GFF are created again.
+- GFF: this is a folder containing the output from blast programs given in GFF3 format: rpstblastn_out.gff, blastn_out.gff, portait_out.gff, blastxUniref_out.gff, blastxSprot_out.gff, dna2pep_out.gff. For a complete description of the format see: http://gmod.org/wiki/GFF#GFF3_Format;
 - STATS: This folder contains:
-a set of files with percentages of presence of GO classes, pathways and organisms/taxonomies: GO_bp_percentages, GO_mf_percentages, GO_cc_percentages, pwl1_percentages, pwl2_percentages, pwl3_percentages, closer_os_table.txt; ATGC percentages: ATGC_Percentages.txt; The percentage is computed as the sum of all the occurrences of the term divided per the number of annotated sequences;
-a HTML file (comprehensive of a folder with images) with all the statistics and plots coming out from the files of percentages;
-- S1_UNIREF_STATSPAGE: is the folder coming with the HTML file containing all the needed images;
+    - a set of files with percentages of presence of GO classes, pathways and organisms/taxonomies: GO_bp_percentages, GO_mf_percentages, GO_cc_percentages, pwl1_percentages, pwl2_percentages, pwl3_percentages, CD_percentages, closer_os_table.txt; ATGC_Percentages.txt.
+    - HTML files with all the statistics and plots coming out from the files of percentages (SEE BELOW FOR DESCRIPTION -> HTML output with statistics);
+    - S1_UNIREF_STATSPAGE: is the folder coming with the HTML file containing all the needed images;
        
 - LOG: it is a folder containing:
   - a log file for *Annocript*. It comes with date and time to be specific of a particular run; 
@@ -52,6 +52,8 @@ R.log: will be in the LOG folder and will contain the output of the R script for
 
 ##What does *Annocript* gives in the tabular output
 
+Separator: *Annocript* uses a specific string to separate different results in the same field. Currently I decided to use: ']---['
+
 ###Columns of the output file with Uniprot_KB 
 (UniProt Knowledgebase containing both results from SwissProt and TrEMBL)
 
@@ -62,20 +64,25 @@ R.log: will be in the LOG folder and will contain the output of the R script for
                 TransLength: is the length in nucleotides (or aminoacids) of the transcript
                 Count: this is the number of reads that have been used from the assembler program to build this transcript
                 HSPNameSP: this is the first HSP result (lowest e-value) as given from the BLASTx output against Swiss-Prot.
-                HSPLengthSP: is the corresponding length in nucleotides of the HSP result
-                HSPEvalueSP: is the corresponding e-value assigned to the HSP
-                HITLengthSP: is the length of the first HIT as given from blastx output
+                HSPLengthSP: length of query participating in alignment minus gaps (BioPerl: $hsp->length('query') )
+                HSPEvalueSP: is the corresponding e-value assigned to the HSP (BioPerl: $hsp->evalue)
+                HITLengthSP: is the length of the first HIT as given from blastx output (BioPerl: $hit->length)
                 QCoverageSP: this is how much of the query (transcript) is covered from the HSP (See below)
                 HCoverageSP: this is how much the HSP covers the HIT (See below)
+                StrandSP: the strand of the query where the HSP results to be aligned (BioPerl: $hsp->strand('query'))
                 DescriptionSP: description of the HSP
                 EnzymeIds: enzyme identifier corresponding to the HSP. (See below)
                 EnzymeDescs: enzyme descriptions of the  EnzymeIds (See below)
+                PwLev1: Pathways of first level associated to the transcripts as they are found in UniPathway. If more than one, they are separated with the specific *separator*;
+                PwLev2: Pathways of second level associated to the transcripts as they are found in UniPathway. If more than one, they are separated with the specific *separator*;
+                PwLev3: Pathways of third level associated to the transcripts as they are found in UniPathway. If more than one, they are separated with the specific *separator*;
                 HSPNameTR:  this is the first HSP result (lowest e-value) as given from the blastx output against Trembl
-                HSPLengthTR: is the corresponding length 
-                HSPEvalueTR: is the corresponding e-value assigned to the HSP
-                HITLengthTR: is the length of the HIT as given from blastx output
+                HSPLengthTR: length of query participating in alignment minus gaps (BioPerl: $hsp->length('query') )
+                HSPEvalueTR: is the corresponding e-value assigned to the HSP (BioPerl: $hsp->evalue)
+                HITLengthTR: is the length of the first HIT as given from blastx output (BioPerl: $hit->length)
                 QCoverageTR: this is how much of the query (transcript) is covered from the HSP (See below)
                 HCoverageTR: this is how much the HSP covers the HIT (See below)
+                StrandTR: the strand of the query where the HSP results to be aligned (BioPerl: $hsp->strand('query'))
                 DescriptionTR: description of the HSP
                 OSName: organism corresponding to the result among SwissProt and TrEMBL with lowest e-value 
                 BPId: Biological processes ids corresponding to the lowest e-value result between SwissProt and TrEMBL (separated by ]---[) (See below)
@@ -109,12 +116,12 @@ The filtered version of the output does not contain the sequences.
 
 ###Columns of output file the with UniRef 
 
-It contains both results from SwissProt and UniRef. The table is the same but now the GO terms are always associated with Uniref result. And the following names change to "Uf" for UniRef.
+It contains both results from SwissProt and UniRef. The table is the same but now the GO terms are always associated with UniRef result. And the following names change to "Uf" for UniRef.
 
                 HSPNameUf: this is the HSP with lowest e-value as given from the blastx output against UniRef
                 HSPLengthUf: is the corresponding length of the HSP
                 HSPEvalueUf: is the corresponding e-value assigned to the HSP
-                HITLengthUf: is the length of the HIT as given from blastx output
+                HITLengthUf: is the length of the HIT as given from BLASTx output
                 QCoverageUf: this is how much of the query (transcript) is covered from the HSP (See below)
                 HCoverageUf: this is how much the HSP covers the HIT (See below)
                 DescriptionUf: description of the HSP 
@@ -146,6 +153,10 @@ They are computed as follows:
 - QueryCoverage = (length of query participating in alignment minus gaps / query length)*100;
 - HitCoverage = (length of hit participating in alignment minus gaps / hit length)*100;
 
+The Query coverage is calculated as the length of the HSP aligning on the query divided by the length of the query multiplied per 100 to obtain a percentage.
+
+The Hit coverage is calculated as the length of the HSP that aligns on the HIT divided by the length of the HIT multiplied per 100 to obtain a percentage.
+
 **EnzymeIds**
 
 This value is extracted by using the file at the following link:
@@ -156,7 +167,7 @@ The database built by *Annocript* contains a table where each enzyke identifier 
 
 **GO classes**
 
-User can choose if wants to display GO terms associated to proteins or domains. Biological process (BP), molecular functions (MF) and cellular components (CC) come out from the GO ids associated to the UniRef/UniProt_kb ids. We extracted the mapping for SwissProt, UniRef and TrEMBL proteins from the file at:      
+User can choose if he wants to display GO terms associated to proteins or domains. Biological process (BP), molecular functions (MF) and cellular components (CC) come out from the GO ids associated to the UniRef/UniProt_kb ids. We extracted the mapping for SwissProt, UniRef and TrEMBL proteins from the file at:      
 
     GODBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz
 
@@ -168,6 +179,40 @@ While mapping for Pfam domains are taken at:
 
 A search against other noncoding RNAs (rRNA, tRNA, snRNA, snoRNA, miRNA) is performed with a blastn search against an integrated database of Rfam and NCBI Refseq ribosomal RNAs.
 
+
+###HTML output with statistics
+
+*Annocript* gives in output a little website composed by few pages showing statistics and plots.
+- **index.html** shows statistics coming from the analysis:
+  - total number of sequences in the transcriptome;
+  - minimum, maximum and mean sequence length; 
+  - average percentage of Adenine, Guanine, Thymine and Cytosine in the transcriptome; 
+  - Average percentage of Ns and GC; 
+  - number of sequences annotated with at least one result from one of the blast execution: proteins, domains, ncRNAs;
+  - alignment obtained with positive and negative strand from blast against proteins;
+
+In case you used nucleotide fasta sequences Portrait and dna2pep will be executed too and you will find also:
+  - sequences in agreement with the strand of the longest ORF: that is a comparison among the strand informtation from the output file of dna2pep and the ones obtained with blast;
+  - number of non coding sequences as from the heuristic described in *Annocript*
+
+- **annot_stats.html** shows plots of percentages of occurrences:
+Percentages are computed as the sum of all the occurrences of the element (GO term, pathway, domain) divided per the number of annotated sequences with at least respectively one GO term, one pathway, one domain;
+
+  - Conserved Domains Percentages: is a plot showing the top N (N modifiable in the configuration file) domains.
+  - Biological Process Percentages: top N biological processes;
+  - Molecular Functions Percentages: top N biological processes;
+  - Cellular Component Process Percentages: top N biological processes;
+ Three similar plots are shown wherever GO terms are present also associated to domains.
+
+ - Closer organism abundances: sorted count of the most abundant organism/taxonomy resulting from the annotation of proteins;
+ - Level1, 2 and 3 of pathways percentages: top N pathways.
+
+- **seq_stats.html** shows boxplots and histograms about statistics from the sequences used:
+  - Distribution of HIT coverage: distributions for HIT coverage from alignments against SwissProt and UniRef/TrEMBL;
+  - Distribution of Query coverage: distributions for Query coverage from alignments against SwissProt and UniRef/TrEMBL;
+  - Distribution of lengths;
+  - Histogram of sequence lengths;
+  - Histogram of longest ORF lengths.
 
 ----------------------------------------
 
