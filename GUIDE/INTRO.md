@@ -6,9 +6,11 @@ Notice: *Annocript* has been tested only on Linux Ubuntu 64 bit Systems. We are 
 
 ##Methods
 
-The pipeline allows the creation of a comprehensive user-friendly table containing all the annotations produced for each transcript. The following are the analyses performed:
+The pipeline allows the creation of a comprehensive user-friendly table containing all the annotations produced for each transcript. The user can choose to annotate her/his transcriptome against selected organisms or the complete database. 
+
+ The following are the analyses performed:
 - The proteins most similar to the transcripts are given by the blastx (blastp if you use peptides) analyses against the UniProt databases SwissProt and TrEMBL (or UniRef). Default databases are downloaded at:
-ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+  - ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
   - ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_trembl.fasta.gz
   - ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref90/uniref90.release_note
 
@@ -19,22 +21,22 @@ Default databases are downloaded at:
   - ftp://ftp.sanger.ac.uk/pub/databases/Rfam/CURRENT/Rfam.fasta.gz
 
 - Rpstblastn (rpsblast) returns information about the Conserved Domains Database within each transcript. 
+Default database is downloaded at:
+  - ftp://ftp.ncbi.nih.gov/pub/mmdb/cdd/little_endian/Cdd_LE.tar.gz
 
 - Portrait measures the probability that a sequence is coding or non-coding. 
 
-- Mapping of GO functional classification is shown using the best matches between SwissProt and TrEMBL. When UniRef is used, the GO terms are always taken associated to its result. GO terms can be also associated to Pfam Domains. To choose the association type (protein,domains or both) you can use the configuration file.
+- Mapping of GO functional classification is shown using the best matches between SwissProt and TrEMBL. If UniRef is used, the GO terms are always taken associated to its result. GO terms can be also associated to Pfam Domains. To choose the association type (protein,domains or both) you can use the configuration file.
 The mapping of GO terms with UniProt identifiers is obtained using the file at:
   - ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz
 
-- Mapping of Enzyme Commission IDs and Pathways descriptions are always given associated only to the SwissProt id, if present.
-The mapping of these identifiers with UniProt ones is obtained using the files at:
+- Mapping of Enzyme Commission IDs and Pathways descriptions are always given associated only to the SwissProt id, if present. The mapping of these identifiers with UniProt ones is obtained using the files at:
   - ftp://ftp.expasy.org/databases/enzyme/enzyme.dat
   - http://www.uniprot.org/docs/pathway.txt
 
 - A final heuristic, based on the integration of all the results, makes Annocript capable to also identify bona-fide noncoding transcripts.
 
 - An HTML page is generated containing summary plots and descriptive statistics of a given transcriptome. GFF3 outputs allow the integration of the annotations in genome browsers and easy file exchange trough current standard formats and a GFF database permits to rapidly access results using bioinformatics API such as BIOPERL.
-
 
 Let's use it!
 
