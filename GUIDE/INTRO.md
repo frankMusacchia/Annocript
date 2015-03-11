@@ -6,7 +6,20 @@ Notice: *Annocript* has been tested only on Linux Ubuntu 64 bit Systems. We are 
 
 ##Methods
 
-The pipeline allows the creation of a comprehensive user-friendly table containing all the annotations produced for each transcript. The proteins most similar to the transcripts are given by the blastx (blastp if you use peptides) analyses against the Uniprot databases SwissProt and coupled with one you can choose among TrEMBL, UniRef100, UniRef90 and UniRef50. UniProt matches can also be used to screen for specific contamination in the sequenced samples. blastn (tblastn) against a custom subset of the NCBI nucleotide database and the Rfam database allows to check for ribosomal and other short noncoding RNAs. rpstblastn (rpsblast) returns information about the CDD within each transcript. Portrait measures the probability that a sequence is coding or non-coding. In addition, each transcript is associated to GO terms, EC number and several descriptions trough cross-mapping of the obtained matches. A final heuristic, based on the integration of all the results, makes Annocript capable to also identify bona-fide noncoding transcripts. An HTML page can be created containing summary plots and descriptive statistics of a given transcriptome. GFF3 outputs allow the integration of the annotations in genome browsers and easy file exchange trough current standard formats and a GFF database permits to rapidly access results using bioinformatics API such as BIOPERL.
+The pipeline allows the creation of a comprehensive user-friendly table containing all the annotations produced for each transcript. The following are the analyses performed:
+- The proteins most similar to the transcripts are given by the blastx (blastp if you use peptides) analyses against the UniProt databases SwissProt and TrEMBL (or UniRef). Default databases are downloaded at:
+ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+tremblDBLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_trembl.fasta.gz
+unirefVerLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref90/uniref90.release_note
+
+- Blastn (or tblastn if you use peptides) against a concatenation of the SILVA database (small and large subunits ribosomal RNAs) and the Rfam database allows to check for ribosomal and other short noncoding RNAs. 
+Default databases are downloaded at:
+  - silvaLSULink = ftp://ftp.arb-silva.de/current/Exports/SILVA_119_LSUParc_tax_silva.fasta.gz
+  - silvaSSULink = ftp://ftp.arb-silva.de/current/Exports/SILVA_119_SSUParc_tax_silva.fasta.gz
+  - rfamDBLink = ftp://ftp.sanger.ac.uk/pub/databases/Rfam/CURRENT/Rfam.fasta.gz
+
+rpstblastn (rpsblast) returns information about the CDD within each transcript. Portrait measures the probability that a sequence is coding or non-coding. In addition, each transcript is associated to GO terms, EC number and several descriptions trough cross-mapping of the obtained matches. A final heuristic, based on the integration of all the results, makes Annocript capable to also identify bona-fide noncoding transcripts. An HTML page can be created containing summary plots and descriptive statistics of a given transcriptome. GFF3 outputs allow the integration of the annotations in genome browsers and easy file exchange trough current standard formats and a GFF database permits to rapidly access results using bioinformatics API such as BIOPERL.
+
 
 Let's use it!
 
