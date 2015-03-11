@@ -24,8 +24,6 @@ Default databases are downloaded at:
 Default database is downloaded at:
   - ftp://ftp.ncbi.nih.gov/pub/mmdb/cdd/little_endian/Cdd_LE.tar.gz
 
-- Portrait measures the probability that a sequence is coding or non-coding. 
-
 - Mapping of GO functional classification is shown using the best matches between SwissProt and TrEMBL. If UniRef is used, the GO terms are always taken associated to its result. GO terms can be also associated to Pfam Domains. To choose the association type (protein,domains or both) you can use the configuration file.
 The mapping of GO terms with UniProt identifiers is obtained using the file at:
   - ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping_selected.tab.gz
@@ -34,7 +32,8 @@ The mapping of GO terms with UniProt identifiers is obtained using the file at:
   - ftp://ftp.expasy.org/databases/enzyme/enzyme.dat
   - http://www.uniprot.org/docs/pathway.txt
 
-- A final heuristic, based on the integration of all the results, makes Annocript capable to also identify bona-fide noncoding transcripts.
+
+- Portrait measures the probability that a sequence is coding or non-coding and its score, together with a final heuristic, based on the integration of all the results, makes Annocript capable to also identify bona-fide noncoding transcripts.
 
 - An HTML page is generated containing summary plots and descriptive statistics of a given transcriptome. GFF3 outputs allow the integration of the annotations in genome browsers and easy file exchange trough current standard formats and a GFF database permits to rapidly access results using bioinformatics API such as BIOPERL.
 
