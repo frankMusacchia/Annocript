@@ -30,7 +30,7 @@ pathwaysTableLink = http://www.uniprot.org/docs/pathway.txt
 uniprotOrgListLink = http://www.uniprot.org/docs/speclist.txt
 pfam2GOLink = http://geneontology.org/external2go/pfam2go
 silvaLSULink = ftp://ftp.arb-silva.de/current/Exports/SILVA_119_LSUParc_tax_silva.fasta.gz
-silvaSSULink = ftp://ftp.arb-silva.de/current/Exports/SILVA_119_SSUParc_tax_silva.fasta.gz
+silvaSSULink = ftp://ftp.arb-silva.de/current/Exports/SILVA_119.1_SSUParc_tax_silva.fasta.gz
 
 #If active (YES) permits to keep in memory all the tables that have been used to generate the database
 #You can use to see if the construction has been well done
