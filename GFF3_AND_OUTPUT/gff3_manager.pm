@@ -470,7 +470,7 @@ sub dna2pepout_2_gff3AndHash{
       }else{$strand = "+";}
       
       #and, in any case, take the abs value for the frame		
-      $frame = abs($rFrame);
+      $frame = abs($rFrame)-1;
         
       my $id = $fields[0];
       if (grep {$id} @tr_ids){
