@@ -19,8 +19,8 @@ The supplementary Perl MODULES bay not be included in the default installation, 
     - sudo apt-get install libparallel-forkmanager-perl 
     
     You may want to use the following Linux commands to check if you already have these perl modules:
-	perl -MParallel::ForkManager -e "print \"Module installed.\\n\";"
-	perl -MTerm::ReadKey -e "print \"Module installed.\\n\";"
+	- perl -MParallel::ForkManager -e "print \"Module installed.\\n\";"
+	- perl -MTerm::ReadKey -e "print \"Module installed.\\n\";"
   
 
 
