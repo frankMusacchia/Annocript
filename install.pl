@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #Annocript - A complete tool for transcriptomes annotation
 #Copyright (C) <2014>  <Francesco Musacchia>
