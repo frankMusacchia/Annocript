@@ -1,4 +1,4 @@
-#*Annocript 1.1.2*
+#*Annocript 1.1.3*
 --------------------------------
 
 *Annocript* is a pipeline for the annotation of *de-novo* generated transcriptomes. It executes blast
