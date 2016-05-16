@@ -160,6 +160,7 @@ CREATE TABLE SVType (
 tables*/  
 CREATE TABLE uniprotkb (
             id INT unsigned PRIMARY KEY,
+            trId varchar (100) not null,
             seqId varchar (20) not null,
             dbId TINYINT unsigned not null,
             descId MEDIUMINT unsigned not null,
@@ -206,7 +207,7 @@ CREATE TABLE infoTable (
  /*This is a composite view formed by two views (A, B) that permits to access the taxonomy, description and go ids of a 
 given protein using its uniprot ID*/
 create view uniprotkbViewSeqA as
-    select u.id as uniprotId, u.seqId as seqId, g.go_ids as go_ids
+    select u.id as uniprotId, u.seqId as seqId, u.trId as trId, g.go_ids as go_ids
         FROM  uniprotkb u LEFT JOIN uniprotkbMappingsTable g  ON  g.uniprot_id = u.id;
            
 create view uniprotkbViewSeqB as
@@ -215,7 +216,7 @@ create view uniprotkbViewSeqB as
                         INNER JOIN  uniprotkbDescType d ON u.descId=d.id;
                         
 create view uniprotkbViewSeq as
-    select uniprotId, seqId, OSType, description, go_ids
+    select uniprotId, trId, seqId, OSType, description, go_ids
         from uniprotkbViewSeqA LEFT JOIN uniprotkbViewSeqB ON uniprotId=uniprotId2;
         
 /*This is a view that permits to access the enzyme ids of a 
