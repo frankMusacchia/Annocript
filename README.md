@@ -1,6 +1,10 @@
 #*Annocript 1.1.3*
 --------------------------------
 
+Inline-style: 
+![alt text](https://github.com/frankMusacchia/Annocript/blob/master/USEFUL/a_logo.png "Annocript logo")
+
+
 <a href="https://omictools.com/annocript-tool" target="_blank"><img src="https://omictools.com/img/logo-blue.png" alt="OMICtools"></a>
 
 *Annocript* is a pipeline for the annotation of *de-novo* generated transcriptomes. It executes blast
