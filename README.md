@@ -1,7 +1,7 @@
 #*Annocript 1.1.3*
 --------------------------------
 
-<a href="https://omictools.com/transcriptome-annotation-category" target="_blank"><img src="https://omictools.com/img/logo-blue.png" alt="OMICtools"></a>
+<a href="https://omictools.com/annocript-tool" target="_blank"><img src="https://omictools.com/img/logo-blue.png" alt="OMICtools"></a>
 
 *Annocript* is a pipeline for the annotation of *de-novo* generated transcriptomes. It executes blast
  analysis with UniProt, NCBI Conserved Domain Database and Nucleotide division adding also annotations 
