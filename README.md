@@ -1,7 +1,6 @@
 #*Annocript 1.1.3*
 --------------------------------
 
-Inline-style: 
 ![alt text](https://github.com/frankMusacchia/Annocript/blob/master/USEFUL/a_logo.png "Annocript logo")
 
 
