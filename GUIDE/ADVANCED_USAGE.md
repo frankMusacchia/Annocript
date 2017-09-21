@@ -344,6 +344,8 @@ organism's list or search a particular species.
 - open the configuration file and set 'blastedOrganism = your_organisms' and  doDbCreation = NO
 - run Annocript
 
+Hint: to get automatically a list of organisms from Uniprot.org you can browse the taxonomy at http://www.uniprot.org/taxonomy and build queries such as http://www.uniprot.org/taxonomy/?query=ancestor%3a33090 (ancestor:"Viridiplantae [33090]"). Then you download the tab file and pick only the column with scientific names of species related with viridiplantae.
+
 ###How to run Annocript with already downloaded db files
 
 Since Annocript is downloading from external sources the database files you could experience some problems that are
