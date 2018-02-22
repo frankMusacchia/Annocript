@@ -106,7 +106,7 @@ use GFF3_AND_OUTPUT::gff3_manager qw(execute_gff_manager);
 use USEFUL::utilities qw(checkLink correct_type db_present extract_name 
                   detect_fasta_type clean_cd_name print_array 
                   num_processors append_file_2_file check_presence my_head ram_memory
-                  is_folder_empty save_hash testFTP check_FTP_diff_sources 
+                  is_folder_empty save_hash check_url testFTP check_FTP_diff_sources
                   indexed_db_present getDBVersion checkFastaFormat append_2_file);
 use USEFUL::utils qw(execute_utils);
 
@@ -1353,158 +1353,96 @@ sub checkDB_CREATION {
       }
       
       #Triple controls on the links. We need it three times because it can fail.
-      annoPrint ("Checking the links for the databases to download...(it may take a while)...\n");
+      annoPrint ("Checking the links for the databases to download...\n");
 			
       #This IFs contain the check of the links to the databases. Two types of check are present for links to the Uniprot data.
       # LWP::Simple::Head and NET::Ftp
       #print "Swiss-prot DB link...";
-        if (!head($configHash->{'swissprotDBLink'}) ) {
-          if (testFTP($configHash->{'swissprotDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-            if (testFTP($configHash->{'swissprotDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-              my $new_link = check_FTP_diff_sources($configHash->{'swissprotDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
-              if ( $new_link ne ''){
-                  $configHash->{'swissprotDBLink'} = $new_link;
-              }else{
-                annoPrint ("Please check if [".$configHash->{'swissprotDBLink'}."] is a correct URL. Annocript will continue...\n"); #
-                $wrongLinks++;
-              }
-            }
+        if (!check_url($configHash->{'swissprotDBLink'}) ) {
+          my $new_link = check_FTP_diff_sources($configHash->{'swissprotDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
+          if ( $new_link ne ''){
+              $configHash->{'swissprotDBLink'} = $new_link;
+          }else{
+            annoPrint ("Please check if [".$configHash->{'swissprotDBLink'}."] is a correct URL. Annocript will continue...\n"); #
+            $wrongLinks++;
           }
         }
        #print "Trembl DB link...";
-        if (!head($configHash->{'tremblDBLink'}) ) {
-          if (testFTP($configHash->{'tremblDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-            if (testFTP($configHash->{'tremblDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-              if (testFTP($configHash->{'tremblDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-              my $new_link = check_FTP_diff_sources($configHash->{'tremblDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
-                if ( $new_link ne ''){
-                    $configHash->{'tremblDBLink'} = $new_link;
-                }else{
-                  annoPrint ("Please check if [".$configHash->{'tremblDBLink'}."] is a correct URL. Annocript will continue...\n"); 
-                  $wrongLinks++;
-                }
-              }
+        if (!check_url($configHash->{'tremblDBLink'}) ) {
+          my $new_link = check_FTP_diff_sources($configHash->{'tremblDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
+            if ( $new_link ne ''){
+                $configHash->{'tremblDBLink'} = $new_link;
+            }else{
+              annoPrint ("Please check if [".$configHash->{'tremblDBLink'}."] is a correct URL. Annocript will continue...\n");
+              $wrongLinks++;
             }
-          }
         }
         #print "Uniprot DB version link...";
-        if (!head($configHash->{'uniprotVerLink'}) ) {
-          if (testFTP($configHash->{'uniprotVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-            if (testFTP($configHash->{'uniprotVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-              if (testFTP($configHash->{'uniprotVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-                my $new_link = check_FTP_diff_sources($configHash->{'uniprotVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
-                if ( $new_link ne ''){
-                    $configHash->{'uniprotVerLink'} = $new_link;
-                }else{
-                  annoPrint ("Please check if [".$configHash->{'uniprotVerLink'}."] is a correct URL. Annocript will continue...\n"); #
-                  $wrongLinks++;
-                }
-              }
-            }
+        if (!check_url($configHash->{'uniprotVerLink'}) ) {
+          my $new_link = check_FTP_diff_sources($configHash->{'uniprotVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
+          if ( $new_link ne ''){
+              $configHash->{'uniprotVerLink'} = $new_link;
+          }else{
+            annoPrint ("Please check if [".$configHash->{'uniprotVerLink'}."] is a correct URL. Annocript will continue...\n"); #
+            $wrongLinks++;
           }
-        }  
+        }
         #print "UniRef DB link...";
-        if (!head($configHash->{'unirefDBLink'}) ) {
-          if (testFTP($configHash->{'unirefDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-            if (testFTP($configHash->{'unirefDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-              if (testFTP($configHash->{'unirefDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-                my $new_link = check_FTP_diff_sources($configHash->{'unirefDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
-                if ( $new_link ne ''){
-                    $configHash->{'unirefDBLink'} = $new_link;
-                }else{
-                  annoPrint ("Please check if [".$configHash->{'unirefDBLink'}."] is a correct URL. Annocript will continue...\n"); #
-                  $wrongLinks++;
-                }
-              }
-            }
+        if (!check_url($configHash->{'unirefDBLink'}) ) {
+          my $new_link = check_FTP_diff_sources($configHash->{'unirefDBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
+          if ( $new_link ne ''){
+              $configHash->{'unirefDBLink'} = $new_link;
+          }else{
+            annoPrint ("Please check if [".$configHash->{'unirefDBLink'}."] is a correct URL. Annocript will continue...\n"); #
+            $wrongLinks++;
           }
         }
         #print "Uniref DB version link...";
-        if (!head($configHash->{'unirefVerLink'}) ) {
-          if (testFTP($configHash->{'unirefVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-            if (testFTP($configHash->{'unirefVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-              if (testFTP($configHash->{'unirefVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-                my $new_link = check_FTP_diff_sources($configHash->{'unirefVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
-                if ( $new_link ne ''){
-                    $configHash->{'unirefVerLink'} = $new_link;
-                }else{
-                  annoPrint ("Please check if [".$configHash->{'unirefVerLink'}."] is a correct URL. Annocript will continue...\n"); #
-                  $wrongLinks++;
-                }
-              }
-            }
+        if (!check_url($configHash->{'unirefVerLink'}) ) {
+          my $new_link = check_FTP_diff_sources($configHash->{'unirefVerLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
+          if ( $new_link ne ''){
+              $configHash->{'unirefVerLink'} = $new_link;
+          }else{
+            annoPrint ("Please check if [".$configHash->{'unirefVerLink'}."] is a correct URL. Annocript will continue...\n"); #
+            $wrongLinks++;
           }
         }
         #print "Uniprot idmapping link...";
-        if (!head($configHash->{'GODBLink'}) ) {
-          if (testFTP($configHash->{'GODBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-            if (testFTP($configHash->{'GODBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-              if (testFTP($configHash->{'GODBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'}) != 1) {
-                my $new_link = check_FTP_diff_sources($configHash->{'GODBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
-                if ( $new_link ne ''){
-                    $configHash->{'GODBLink'} = $new_link;
-                }else{
-                  annoPrint ("Please check if [".$configHash->{'GODBLink'}."] is a correct URL. Annocript will continue...\n"); 
-                  $wrongLinks++;
-                }
-              }
-            }
+        if (!check_url($configHash->{'GODBLink'}) ) {
+          my $new_link = check_FTP_diff_sources($configHash->{'GODBLink'}, $configHash->{'uniprotWebUser'}, $configHash->{'uniprotWebPass'});
+          if ( $new_link ne ''){
+              $configHash->{'GODBLink'} = $new_link;
+          }else{
+            annoPrint ("Please check if [".$configHash->{'GODBLink'}."] is a correct URL. Annocript will continue...\n");
+            $wrongLinks++;
           }
         }
         
         #Links that are not to Uniprot will use double time he Head function and finally the Net::FTP check
         #NOT UNIPROT
-         if (!head($configHash->{'enzymeDBLink'}) ) {
-          if (!head($configHash->{'enzymeDBLink'})) {
-            if (testFTP($configHash->{'enzymeDBLink'})!= 1) {
-              annoPrint ("Please check if [".$configHash->{'enzymeDBLink'}."] is a correct URL. Annocript will continue...\n");#
-              $wrongLinks++;
-            }	
-          }
+        if (!check_url($configHash->{'enzymeDBLink'}) ) {
+          annoPrint ("Please check if [".$configHash->{'enzymeDBLink'}."] is a correct URL. Annocript will continue...\n");#
+          $wrongLinks++;
         }
-        if (!head($configHash->{'cdDBLink'})) {
-          if (!head($configHash->{'cdDBLink'})) {
-            if (testFTP($configHash->{'cdDBLink'}) != 1) {
-              annoPrint ("Please check if [".$configHash->{'cdDBLink'}."] is a correct URL. Annocript will continue...\n"); #
-              $wrongLinks++;
-            }
-          }
+        if (!check_url($configHash->{'cdDBLink'})) {
+          annoPrint ("Please check if [".$configHash->{'cdDBLink'}."] is a correct URL. Annocript will continue...\n"); #
+          $wrongLinks++;
         }
-        #This link always has some more troubles... let's add one more check!
-        if (!head($configHash->{'cdTableLink'})) {
-          if (!head($configHash->{'cdTableLink'})) {
-            if (!head($configHash->{'cdTableLink'})) {
-              if (testFTP($configHash->{'cdTableLink'}) != 1) {
-                annoPrint ("Please check if [".$configHash->{'cdTableLink'}."] is a correct URL. Annocript will continue...\n"); #
-                $wrongLinks++;
-              }
-            }
-          }
+        if (!check_url($configHash->{'cdTableLink'})) {
+          annoPrint ("Please check if [".$configHash->{'cdTableLink'}."] is a correct URL. Annocript will continue...\n"); #
+          $wrongLinks++;
         }
-        
-        if (!head($configHash->{'rfamDBLink'})) {
-          if (!head($configHash->{'rfamDBLink'})) {
-            if (testFTP($configHash->{'rfamDBLink'}) != 1) {
-              annoPrint ("Please check if [".$configHash->{'rfamDBLink'}."] is a correct URL. Annocript will continue...\n"); 
-              $wrongLinks++;
-            }
-          }
+        if (!check_url($configHash->{'rfamDBLink'})) {
+          annoPrint ("Please check if [".$configHash->{'rfamDBLink'}."] is a correct URL. Annocript will continue...\n");
+          $wrongLinks++;
         }
-        if (!head($configHash->{'rfamDBLink'})) {
-          if (!head($configHash->{'rfamDBLink'})) {
-            if (testFTP($configHash->{'rfamDBLink'}) != 1) {
-              annoPrint ("Please check if [".$configHash->{'rfamDBLink'}."] is a correct URL. Annocript will continue...\n"); 
-              $wrongLinks++;
-            }
-          }
+        if (!check_url($configHash->{'rfamDBLink'})) {
+          annoPrint ("Please check if [".$configHash->{'rfamDBLink'}."] is a correct URL. Annocript will continue...\n");
+          $wrongLinks++;
         }
-        if (!head($configHash->{'silvaVerLink'})) {
-          if (!head($configHash->{'silvaVerLink'})) {
-            if (testFTP($configHash->{'silvaVerLink'}) != 1) {
-              annoPrint ("Please check if [".$configHash->{'silvaVerLink'}."] is a correct URL. Annocript will continue...\n"); 
-              $wrongLinks++;
-            }
-          }
+        if (!check_url($configHash->{'silvaVerLink'})) {
+          annoPrint ("Please check if [".$configHash->{'silvaVerLink'}."] is a correct URL. Annocript will continue...\n");
+          $wrongLinks++;
         }
         #Cannot check SILVA databases since when the version changes then name changes too
        #if (!head($configHash->{'silvaLSULink'})) {
@@ -1524,13 +1462,9 @@ sub checkDB_CREATION {
           #}
         #}
 
-        if (!head($configHash->{'pathwaysTableLink'})) {
-          if (!head($configHash->{'pathwaysTableLink'})) {
-            if ( testFTP($configHash->{'pathwaysTableLink'}) != 1 ) {
-              annoPrint ("Please check if [".$configHash->{'pathwaysTableLink'}."] is a correct URL. Annocript will continue...\n"); #
-              $wrongLinks++;
-            }
-          }
+        if (!check_url($configHash->{'pathwaysTableLink'})) {
+          annoPrint ("Please check if [".$configHash->{'pathwaysTableLink'}."] is a correct URL. Annocript will continue...\n"); #
+          $wrongLinks++;
         }
        
       if ($wrongLinks > 0){

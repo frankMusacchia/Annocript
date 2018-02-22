@@ -28,7 +28,7 @@ use Exporter();
                   num_processors exec_command count_sequences print_file check_presence
                   my_head try_exec_command deallocate_hash indexing_files_present ram_memory
                   is_folder_empty getUnirefType save_hash join_files_with_cat
-                  extract_special_chars create_slices testFTP check_FTP_diff_sources indexed_db_present 
+                  extract_special_chars create_slices check_url testFTP check_FTP_diff_sources indexed_db_present
                   drop_database destroy_db count_lines_file checkOutputsPresence getDBVersion 
                   my_get_proteoms_from_UniProt checkFastaFormat extract_columns_from_file
                   non_zero_seqs_length append_2_file getSILVADBVersion);
@@ -2014,6 +2014,34 @@ sub my_head{
   return $retVal, $new_link;
 }
 
+=head2 check_url
+
+ Title   : check_url
+ Usage   : check_url(link => the link to check);
+ Function: Checks whether the link is working by sending a HEAD request with curl. Supports both HTTP and FTP links.
+           Tries to probe the URL 5 times before declaring failure.
+ Returns : 1 if link is good, 0 otherwise
+
+=cut
+sub check_url {
+    my $url = shift;
+    my $attempts = 0;
+    while ($attempts < 5) {
+        # -f means die on 404 and similar errors
+        # -s means do not print the progress bar
+        # --head specified type of request (HEAD)
+        # --location tells curl to follow redirects, if any
+        system "curl -f -s --head --location $url >/dev/null";
+        if (!$?) {  # All good, link is alive
+            return 1
+        }
+        $attempts += 1;
+        sleep(1);  # trying again *right away* is not very wise, let's wait at least a little
+    }
+    # If we're here, all attempts ended in failure, link is dead
+    return 0
+}
+
 
 =head2 testFTP
 
@@ -2052,7 +2080,6 @@ sub testFTP {
         }
         $numTent++;
     }
-    
     
   return $status;
 }
