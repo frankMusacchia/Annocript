@@ -1861,37 +1861,20 @@ sub getDBVersion{
 
 =cut
 sub getSILVADBVersion{
-
- my $versionDBLink = shift;
- my $folderName = shift;
- 
- my $version = '';
- my $fileName= extract_name($versionDBLink,0);
-   
- if (not (-e $folderName."/".$fileName) ){
-   #print "Downloading File: ".$versionDBLink."\n";
-   download_file($versionDBLink,$folderName);
- }else{
-   print "File ".$folderName."/".$fileName." already downloaded...\n";
- }
- my $line;
-  #Open file and read the version
-  open(descrFile, $folderName."/".$fileName) or die "ERROR [$?]: Cannot open SILVA version info file...Exiting: ?\n";;
-   $line = <descrFile>;
-   chop($line);
-   #print "firstLine: ".$firstLine."\n";#DEBUGCODE
-   my @pieces = split(" ",$line);
-   $version = $pieces[scalar(@pieces)-1];
-   #$line =~ m/SILVA\sRelease\s(.*)/;
-   #$version = $1;
-  
- if ($version eq ''){
-      die "ERROR [$?] Reading the file of SILVA version. Not in the format established in 2015. Please contact the creators of Annocript or ".
-      " modify the function getSILVADBVersion in db_creator.pm module. Exiting...: ?\n";
-  } 
- close(descrFile);
- 
- return $version;
+    my $versionDBLink = shift;  # Link to FTP site of SILVA
+    my $version = '';
+    my $ftp = Net::FTP->new($versionDBLink) or die "Could not connect to $versionDBLink: $!";
+    $ftp->login('anonymous', 'anonymous') or die "Could not login to $versionDBLink: $!";
+    $ftp->cwd('current');  # We follow the "current" symbolic link...
+    my $current_directory = $ftp->pwd();  # And retrieve the actual name, which looks like "/release_132"
+    $current_directory =~ m/release_([0-9]+)/;  # Extract only version number
+    my $version = $1;
+    $ftp->quit();  # Be nice and close the connection
+    if ($version eq ''){
+        die "ERROR [$?] Reading the file of SILVA version. Not in the format established in 2018. Please contact the creators of Annocript or ".
+        "modify the function getSILVADBVersion in db_creator.pm module. Exiting...: ?\n";
+    }
+    return $version;
 }
 
 =head2 ftp_fetch_file

@@ -792,7 +792,7 @@ sub download_databases {
   
   #NCdatabases download SILVA Long and Short Sub Units
   #Get the version number of the database 
-  my $silva_ver = getSILVADBVersion($configHash->{'silvaVerLink'}, $dbDataFolder);
+  my $silva_ver = getSILVADBVersion($configHash->{'silvaVerLink'});
   #Substitute the version number to the string [VERSION] in the links
   #I hope they will never add [VERSION] in their links :-D
   $configHash->{'silvaLSULink'} =~ s/\[VERSION\]/$silva_ver/;
