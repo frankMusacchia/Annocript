@@ -246,7 +246,7 @@ save_hash($configHashPath,$configHash, $hashName);
 my $newLogFile =  $logFolder."/".$logFile;#Log of Annocript goes in the log folder
 
 annoPrint ("Your configuration has been saved! A log file will be created in $logFolder/$logFile. \nThe overall computation usually"
-      ." depends from the number of sequences and the speed of the machine you are using. \nYou may want to check Annocript step-by-step "
+      ." depends on the number of sequences and the speed of the machine you are using. \nYou may want to check Annocript step-by-step "
       ."with the following command: more ".$newLogFile.".\n"
       ."\nYou will find all the results in the folder you chose here. Please take a look at\n"
       ." https://github.com/frankMusacchia/Annocript/blob/master/GUIDE/OUTPUT.md to understand the output from Annocript and the"
@@ -1883,7 +1883,7 @@ sub checkDB_CREATION {
 			  }
 		  }
 	  }
-	  annoPrint ("A folder $dbDataFolder is already existent. Annocript will continue...\n ");
+	  annoPrint ("A folder $dbDataFolder already exists. Annocript will continue...\n ");
 	}
 
 			
@@ -1891,7 +1891,7 @@ sub checkDB_CREATION {
 	unless(-d $tempTableFolder){
 		annoPrint ($tempTableFolder." doesn't exists. Creating folder $tempTableFolder...\n");
 		mkdir $tempTableFolder or annoDie( "ERROR : Can't create $tempTableFolder. Check permissions!\n");
-	}else{annoPrint ("A folder $tempTableFolder is already existent. Annocript will continue...\n ");}
+	}else{annoPrint ("A folder $tempTableFolder already exists. Annocript will continue...\n ");}
 	
 	$configHash->{'uniprotKBDB'} = "uniprot_kb_".$dbVersion.".fasta";#Create the name for the uniprot kb
 	
@@ -2482,7 +2482,7 @@ sub checkDB_CREATION {
 			  #}
 		  #}
 	  #}
-	  #annoPrint ("A folder $dbDataFolder is already existent. Annocript will continue...\n ");
+	  #annoPrint ("A folder $dbDataFolder already exists. Annocript will continue...\n ");
 	#}
 
 			
@@ -2490,7 +2490,7 @@ sub checkDB_CREATION {
 	#unless(-d $tempTableFolder){
 		#annoPrint ($tempTableFolder." doesn't exists. Creating folder $tempTableFolder...\n");
 		#mkdir $tempTableFolder or annoDie( "ERROR : Can't create $tempTableFolder. Check permissions!\n");
-	#}else{annoPrint ("A folder $tempTableFolder is already existent. Annocript will continue...\n ");}
+	#}else{annoPrint ("A folder $tempTableFolder already exists. Annocript will continue...\n ");}
 	
 	#$configHash->{'uniprotKBDB'} = "uniprot_kb_".$dbVersion.".fasta";#Create the name for the uniprot kb
 	

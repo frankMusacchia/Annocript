@@ -1,4 +1,4 @@
-#*Annocript 1.1.3*
+# *Annocript 1.1.3*
 --------------------------------
 
 ![alt text](https://github.com/frankMusacchia/Annocript/blob/master/USEFUL/a_logo.png "Annocript logo")
@@ -15,7 +15,7 @@ sequence features.
 
 The inpatient may go directly at the [INSTALL](https://github.com/frankMusacchia/Annocript/blob/master/GUIDE/INSTALL.md) page. Then, you should visit the tutorial at [TUTORIAL](https://github.com/frankMusacchia/Annocript/blob/master/GUIDE/TUTORIAL.md) to learn how to use *Annocript*.
 
-##Mission
+## Mission
 
 *Annocript* is a highly configurable tool to annotate and analyze transcriptomes. After the transcriptome annotation you may want to run an expression analysis. R Scripts to perform differential expression analysis are already present in the section Annocript_utils. We are currently using edgeR (Robinson *et al*, 2010) in a script that starts from the raw counts table. In the same section you can also find a useful Python script for intelligent search of specific words inside user-selectable columns of the Annocript output. Other useful plots and analyses are in work in progress and will be made available as soon as possible.
 
@@ -31,7 +31,7 @@ Examples of whole transcriptome annotations made by Annocript can be downloaded 
 
 Please cite: *Musacchia F, Basu S, Petrosino G, Salvemini M, Sanges R. Annocript: a flexible pipeline for the annotation of transcriptomes which can also identify putative long non-coding RNA*
 
-##Installation and tutorial
+## Installation and tutorial
 
 To start using it you must follow instructions in the **GUIDE** folder.
 Below is a simple introduction of what you will find there and how to find solutions to possible problems.
@@ -50,7 +50,7 @@ of the configuration files; It also explains what are the field of the tabular o
 
 Please enjoy this product and send us questions and suggestions!
 
-##System Requirements
+## System Requirements
 
 To work, *Annocript* needs:
 - MySQL database server 
@@ -66,13 +66,13 @@ To work, *Annocript* needs:
 Check for the tested versions in the [INSTALL](https://github.com/frankMusacchia/Annocript/blob/master/GUIDE/INSTALL.md) page.
 
 
-##*Annocript* times and space
+## *Annocript* times and space
 
 Any user will wonder how much time and space *Annocript* needs. We can say approximate times and sure space dimensions.
 *Annocript* execution time depends strongly from what modules the user is executing and of course from the speed and memory of your machine. Here we only show the most important processes that are always taking the biggest part of the overall computational time.
 
 
-###Database Creation
+### Database Creation
 
 The database creation needs to be done only once but it depends on what proteins db you are creating (Uniref or Uniprot_kb).
 If you decide to use Uniprot_kb, *Annocript* will fill an annotation table with both the BLAST results from Swiss-Prot and Trembl
@@ -83,7 +83,7 @@ be downloaded also (see the **INTRO** file for more information about this step)
 Consider as a suggestion that, if your machine is not very recent and powerful you can consider to install Uniref database (Uniref50
 takes the lowest time and space). Otherwise Uniprot_kb is a good choice.
 
-####Times
+#### Times
 
 We took times for the creation of the database from 3 different machines with different cores and RAM memory: 
 - Machine with 24 core and 96 GBRAM 
@@ -100,7 +100,7 @@ taken by using approximately 1MB/sec in download but depending from the speed of
 take few hours more.
 
 
-####Space
+#### Space
 
 The space needed to build the MySQL database is approximately: 
 - UNIREF 2014_04: 52.61GB (50.1GB for files; 2.4 GB MySQL db) 
@@ -111,7 +111,7 @@ You can save some space by choosing, during the configuration, to remove the dow
 - zip files in Uniref: 8.5GB
 - zip files in Uniprotkb: 14.5GB
 
-###Programs Execution
+### Programs Execution
 
 Programs execution strongly depends from the transcriptome and the database we are using. The number of sequences but mostly 
 their mean length.
@@ -119,7 +119,7 @@ We took the times of the blastx execution (the most expensive process) against t
 (which you will find in the config_user.txt) on a machine with 24 threads (2 Intel(R) Xeon(R) X5660 at 2.80GHz and 96GB RAM). 
 This machine permitted the multi-threaded run of blast and rpsblast. We always used 20 core. The followings are the times when depending from mean length of sequences.
 
-####Times
+#### Times
 
 It needed about: 
 - 6 hrs for 11351 transcripts of mean length 951 nucleotides; 
