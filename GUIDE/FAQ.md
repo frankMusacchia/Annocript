@@ -1,4 +1,4 @@
-#FAQ Frequently Asked Questions
+# FAQ Frequently Asked Questions
 
 Here you can find issues already solved at any step with *Annocript*. Please search here before to post any question on the forum or to mail the mantainer.
    

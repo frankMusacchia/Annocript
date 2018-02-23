@@ -1,6 +1,6 @@
-#Annocript 0.2 - Configure and run!
+# Annocript 0.2 - Configure and run!
 
-##Configuration 
+## Configuration
 
 The first time you run *Annocript* you have to fix some important parameters in the config_user.txt file. 
 These parameters will not change anymore after you set them the first time. Then you can keep that configuration file in your working folder and modify it everytime you need a different analysis. The configuration file is in the CONFIGURATION folder of *Annocript*. Copy that and open it with a text editor. I use nano:
@@ -89,7 +89,7 @@ Some Warnings also may come out because of problems with connection on your clie
 - The default database for domains is the Cdd. It contains domains from KOG, COG, Pfam, TIGR, Prk. Some problem could be verified when you are using a machine with 32bits. Please consider to use only one single database. We suggest Pfam but you can use which you want. If you do that, please change the variable cdName4Expression in the same annocript_config.txt file.
 
         
-##Annocript fast complete execution 
+## Annocript fast complete execution
 
 
 After that the fixed parameters have been set, you can start *Annocript* and its analysis. 

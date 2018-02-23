@@ -1,7 +1,7 @@
-#Annocript 0.2 - Installation
+# Annocript 0.2 - Installation
 
 
-##Install Dependencies  
+## Install Dependencies
 
 To work, Annocript need the following packages. All of them may be safely downloaded using the Ubuntu Software Center (or other similar tools in different Linux releases). If you use this kind of tool you can simply search each package with its name and install it.
 The supplementary Perl MODULES bay not be included in the default installation, thus install them manually.
@@ -47,7 +47,7 @@ TWO THINGS TO REMEMBER!!
 
   2. BLAST programs and DNA2PEP don't need to be installed for Annocript as it uses full paths to access the executables. If you plan to use BLAST programs later you can choose a manual installation. Instead you will need to install PORTRAIT and its dependencies. 
 
-##Instruction on how to create a user account with MySQL
+## Instruction on how to create a user account with MySQL
 
 If you do not have experience or a system administrator to create a mysql account but you have been able to install it, you could simply execute MySQL from the command line and create an use with a password to use later in *Annocript*.
 
@@ -79,7 +79,7 @@ Finally reload the privileges to finalize it:
 Please write down this setting to use later in Annocript.
 
 
-##Instructions to install BLAST, PORTRAIT and DNA2PEP 
+## Instructions to install BLAST, PORTRAIT and DNA2PEP
 
 Download the file on the main page of *Annocript* on GitHub or click [here](https://github.com/frankMusacchia/Annocript/archive/master.zip). Then go to the folder where you downloaded it, suppose 
 "/Download", and unzip the file. One folder will come out 'Annocript-master' that we suggest to rename: 
@@ -108,7 +108,7 @@ To install please execute the following steps. Start copying both in the bin dir
               ---------------- TERMINAL ------------------ 
 
 
-###Portrait installation 
+### Portrait installation
 
 
 Portrait makes use of 3 different programs to run: CAST, ANGLE, LIB_SVM. Each of the packages needs to be present and 
@@ -156,7 +156,7 @@ The script for the configuration will run. This is how it will appear:
               
 If you have any problems during the installation please see the FAQ page of the user guide or ask on the google group: https://groups.google.com/forum/#!forum/annocript
 
-###dna2pep Installation 
+### dna2pep Installation
 
 It don't need to be installed, only uncompress in the bin folder you created. Here we will also change 
 permissions of the .py file or *Annocript* will not find it. 
@@ -173,7 +173,7 @@ permissions of the .py file or *Annocript* will not find it.
 If you have any problems during the installation please see the FAQ page of the user guide or ask on the google group: https://groups.google.com/forum/#!forum/annocript 
 
 
-###NCBI-BLAST Installation 
+### NCBI-BLAST Installation
               
 
 You can both uncompress the archive compiled for your architecture and put it in the /bin folder or follow the NCBI instructions for the installation. 
@@ -194,7 +194,7 @@ In Ubuntu Linux you can also install it via terminal:
 If you have any problems during the installation please see the FAQ page of the user guide or ask on the google group: https://groups.google.com/forum/#!forum/annocript 
 
 
-##Install Annocript 
+## Install Annocript
 
 
 To install Annocript we will create a folder where to save all the files and folder produced during the analysis. Then we will run the install.pl script from 

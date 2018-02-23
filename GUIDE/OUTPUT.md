@@ -1,6 +1,6 @@
-#Annocript 0.2 - Output
+# Annocript 0.2 - Output
 
-##How *Annocript* manages folders and files
+## How *Annocript* manages folders and files
 
 
 When you run *Annocript* the first time two folders are created in the session directory you created 
@@ -44,17 +44,17 @@ Inside the JOBS folder you will see all the sessions you saved as folders. Suppo
 - config_user.txt: the file with the configuration used.
 
 
-##Log files
+## Log files
 
 Apart from the main log file about the run of *Annocript* and the file with times, a log files is created by *Annocript* during the construction of DB.
 uniprotkb_headParsNAValues.log: this log file is written while the UniProt_kb/UniRef table construction is running. This table will contain a set of data fetched from the headers of the corresponding databases from UniProt. If a tag does not contain anything, *Annocript* will write in this log the corresponding row and tag which does not appear. You can consider to look at this file to see what is the progress in the reading of the UniProt database;
 R.log: will be in the LOG folder and will contain the output of the R script for the plots.
 
-##What does *Annocript* gives in the tabular output
+## What does *Annocript* gives in the tabular output
 
 Separator: *Annocript* uses a specific string to separate different results in the same field. Currently I decided to use: ']---['
 
-###Columns of the output file with Uniprot_KB 
+### Columns of the output file with Uniprot_KB
 (UniProt Knowledgebase containing both results from SwissProt and TrEMBL)
 
 *Annocript* gives in output a text file with tab separated fields. They are the following:
@@ -115,7 +115,7 @@ Separator: *Annocript* uses a specific string to separate different results in t
 
 The filtered version of the output does not contain the sequences.
 
-###Columns of output file the with UniRef 
+### Columns of output file the with UniRef
 
 It contains both results from SwissProt and UniRef. The table is the same but now the GO terms are always associated with UniRef result. And the following names change to "Uf" for UniRef.
 
@@ -202,7 +202,7 @@ A search against other noncoding RNAs (rRNA, tRNA, snRNA, snoRNA, miRNA) is perf
 The program dna2pep uses 1,2,3 to indicate the frame where the longest ORF was translated. Instead blast uses 0,1,2.
 To be uniformly with blast, we subtracted 1 to the frame value from dna2pep in all the output files (longest ORF file, Annocript tabular output filtered and non-filtered, gff file from dna2pep) but not the dna2pep output. This latter is the only place where you can find the exact output from dna2pep.
 
-###HTML output with statistics
+### HTML output with statistics
 
 *Annocript* gives in output a little website composed by few pages showing statistics and plots.
 - **index.html** shows statistics coming from the analysis:

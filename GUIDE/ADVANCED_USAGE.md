@@ -1,11 +1,11 @@
-#Annocript 0.2 - Advanced usage
+# Annocript 0.2 - Advanced usage
 
 If you have already experienced several Annocript successful runs you may want to perform some more specific tasks or just using some sections of it (e.g. create only a database, running only some programs 
 or only to obtain results). You can do it buy using the user configuration file in a very simple way. 
 Please read the following tutorials to do it! 
 
 
-##Build a new Protein database 
+## Build a new Protein database
 
 
 The first thing that you need for you analysis is to install a proteins database with UniRef or UniProt_KB (knowledge base) 
@@ -114,7 +114,7 @@ The date is taken automatically from a corresponding release_note file.
 
 
 
-##Starting Programs execution 
+## Starting Programs execution
 
 
 If you created the proteins database already and/or you want to run only analysis on your sequences then open the 
@@ -237,7 +237,7 @@ Once you did it, Annocript will start with the execution of programs that you ch
 If something goes wrong, Annocript will alert you in the log file. 
 
 
-###Check of the results 
+### Check of the results
 
 All BLAST output will be stored in the folder OUTPUT of your session folder. They will be checked by *Annocript* in this way: if the number of output sequences is different from the total number of sequences in your query file, than there's a problem and you will be informed. 
 
@@ -248,7 +248,7 @@ have the output of BLASTX for your sequences and you want only to run the other 
 
 
 
-##Print informations 
+## Print informations
 
 
 If you already get the results of the programs you can start the module to get only the statistics. 
@@ -324,13 +324,13 @@ Then run Annocript!
 The output and statistics will be all stored inside the 'stats' and 'output' folders. 
 
 
-##HINTS & TIPS
+## HINTS & TIPS
 
 
 Here you'll find some tricks to obtain that Annocript does something that you want but actually its normal functioning 
 does not permits it.
 
-###How to blast against specific organisms
+### How to blast against specific organisms
 
 To blast against a specific organism or a set you might use the option *blastedOrganism*. This variable can have one of two values: it can be a
 file with a list of organisms or the string 'all'. The latter case represents the usual running of *Annocript* indexing all the database and blasting
@@ -346,7 +346,7 @@ organism's list or search a particular species.
 
 Hint: to get automatically a list of organisms from Uniprot.org you can browse the taxonomy at http://www.uniprot.org/taxonomy and build queries such as http://www.uniprot.org/taxonomy/?query=ancestor%3a33090 (ancestor:"Viridiplantae [33090]"). Then you download the tab file and pick only the column with scientific names of species related with viridiplantae.
 
-###How to run Annocript with already downloaded db files
+### How to run Annocript with already downloaded db files
 
 Since Annocript is downloading from external sources the database files you could experience some problems that are
 independent from Annocript code. Sometimes a good connection is not available and permission on Uniprot servers can change
@@ -369,7 +369,7 @@ Then you can start Annocript's DB_CREATION and ignore all the warnings you will 
 
 
 
-###Running your own output files
+### Running your own output files
 
 You may want to run by yourself the BLAST programs and then use them with *Annocript*. It is really straightforward to do simply by putting all the files in the apposite folders of the programs.
 
@@ -394,7 +394,7 @@ In order to do this operation follow these steps:
 
 
 
-###Using different Conserved Domains Databases
+### Using different Conserved Domains Databases
 
 If you want to use another database different from the Cdd one, you can choose one at 
 (ftp://ftp.ncbi.nih.gov/pub/mmdb/cdd/little_endian/). To use it you have to:
@@ -413,7 +413,7 @@ Then you can normally start Annocript: it will ask to you what cd database to us
 
 
 
-###Getting the output from a filtered fasta file
+### Getting the output from a filtered fasta file
 Suppose you ran *Annocript* for your organism but you want to investigate more a set of those transcripts. You may want to get the annotation only for those transcripts while retaining the original output from the previous run. 
 
 You can do it!! *Annocript* will perform an identical run but on those sequences only. All the output files will be overwritten (not those from the programs). All the files in the stats folder will be overwritten. Please be careful to save all these files and remove then everything from the stats folder!!
@@ -426,7 +426,7 @@ Do it by:
 
 
 
-###Re-generation of an existing database
+### Re-generation of an existing database
 
 If you do not cancelled the compressed or uncompressed files of the database, you can later recreate it if
 Annocript has been updated or the system had some problem. Simply you should put the version file in the ann_works/data
@@ -450,7 +450,7 @@ After removal, re-start Annocript.
 
 
 
-###Using different Uniref types of databases (100, 90, 50)
+### Using different Uniref types of databases (100, 90, 50)
 
 Deciding to use the UniRef database will reduce the computational time for both the construction of the database and running of blastx while the results are similar to those with uniprot_kb with only a little loose in specificity. 
 The default type in *Annocript* is the UniRef90 but you may want to use another among 100 or 50. 
@@ -470,7 +470,7 @@ unirefVerLink = ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/unir
 All the results will be given in accord with the database chosen.
 
 
-###How to add parameters for blast
+### How to add parameters for blast
 
 *Annocript* has few parameters you can give in input to blast. Actually we chosen to keep few initially and see what is the exigency of the users. If you want to add more parameters please ask in the google group. It is very simple to add if you have a little experience in coding and if you are not we can think to add this parameter.
 

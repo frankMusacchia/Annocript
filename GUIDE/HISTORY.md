@@ -1,4 +1,4 @@
-#The *Annocript* 0.2 - History
+# The *Annocript* 0.2 - History
 
 *Annocript* 0.1 (2011) - Completely realized by Swaraj Basu under the supervision of Remo Sanges. It was based on the manual download of the databases and on the use of a configuration file that was created at running time at the first execution of the software. Then *Annocript* creates a little database with information coming from the output of BLAST software.
 

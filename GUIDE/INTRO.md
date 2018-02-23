@@ -1,10 +1,10 @@
-#Annocript 0.2 - Introduction
+# Annocript 0.2 - Introduction
 
 Annocript is a pipeline that can be used to manage and give a consistence in terms of annotation to de-novo generated transcriptomes. It executes several blast analysis steps and builds annotations using information taken from UniProt, NCBI Conserved Domain Database and Nucleotide divisions (CDD), Gene Ontology, and the Enzyme Commission. *Annocript* also perform analyses based on Portrait software to measure the noncoding potential of RNA sequences. *Annocript* works with both nucleotides and peptides. If you use proteins different blast programs will be ran while Portrait and dna2pep will not, since they work only with nucleotides.
 
 Notice: *Annocript* has been tested only on Linux Ubuntu 64 bit Systems. We are not sure of what will happen on different operating systems and machines!!
 
-##Methods
+## Methods
 
 The pipeline allows the creation of a comprehensive user-friendly table containing all the annotations produced for each transcript. The user can choose to annotate her/his transcriptome against selected organisms or the complete database. 
 
@@ -48,7 +48,7 @@ When you decide to use *Annocript* you can choose to run one or all of the follo
 
 You should create the database only once and then *Annocript* will use it. (You don't need to repeat the creation a second time unless UniProt has produced another version of UniProt knowledge base and you want to update it). You should then run the programs to obtain the analysis output. To customize the execution you have to use the configuration file.
 
-##Configuration Files
+## Configuration Files
 
 *Annocript* contains two different configuration files. One is for users and the other is used by *Annocript* to choose names and other stuff that should not be changed by the generic *Annocript* user. However, experienced power-users can see how to use the latter ADVANCED_USAGE section of the Guide. By modifying the parameters in the user configuration file you can run only some programs or only have a database for doing analysis using your scripts, you can set the parameters and the cutoff for the analysis and so on.
 The user configuration file is divided in 3 main parts. They are the following:
