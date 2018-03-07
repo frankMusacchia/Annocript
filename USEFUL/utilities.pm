@@ -248,70 +248,49 @@ sub dl_and_extract{
  Usage   : download_file( -fileAdd => is the path of the file
                           -folderName => is the folder where we have to download
                           -user => username froruniprot
-                            -pass => password for uniprot
+                          -pass => password for uniprot
                                );
 
  Function:  Given in input a path to a file, it download it in the data folder. It assigns as name of the file the last
-#element of the array composed by the split of the string path.
-The function tries more than one download types. The first one is with the GET of LWP. If it does not work, Annocript tries again with LWP Get
-and if this again doesn't then it uses the Fetch::File class that calls various methods.
-If this kind of download still does not work and we are trying to download Uniprot databases, then other domains are used because it can happen
-that one of them is not working. The access is tried on Uniprot.org, EBI.org, Expasy.org
+ #element of the array composed by the split of the string path.
+ The function tries more than one download types. The first one is with the GET of LWP. If it does not work, Annocript tries again with LWP Get
+ and if this again doesn't then it uses the Fetch::File class that calls various methods.
+ If this kind of download still does not work and we are trying to download Uniprot databases, then other domains are used because it can happen
+ that one of them is not working. The access is tried on Uniprot.org, EBI.org, Expasy.org
 
  Returns : it gives 1 if download succed, 0 if it is not, 2 if succeed with a change of link. In this case the new_link is valued
 
 =cut
 sub download_file{
-  my $fileAdd = shift;
-  #print "file name: ".$fileAdd."\n";
-  my $folderName = shift;
-  my $user = shift;
-  my $pass =shift;
-  my $originalFileDim = shift;
-  
-  my $new_link = '';
-  my $retVal = 0;
+    my $fileAdd = shift;
+    my $folderName = shift;
+    my $user = shift;
+    my $pass = shift;
 
-  print "Downloading: $fileAdd...";
-  
-  my $ua = LWP::UserAgent->new;
-  my $req = HTTP::Request->new (GET => $fileAdd);
-  
-  if (defined($user) and defined ($pass)){
-    $req->authorization_basic($user, $pass);
-  }
-  my $fileToDl = extract_name($fileAdd,"0");
-  my $res = $ua->request($req, $folderName."/".$fileToDl);
+    my $new_link = '';
+    my $retVal = 0;
 
-  if ($res->is_success) {
-     print "..completed!\n";
-     $retVal = 1; 
-  }
-  else {
-	  #Here we add a specific control and re-download because sometimes for problems of networks
-	  #the file is not downloadable but it becomes after some seconds.
-     #print "Some problem occurred while downloading $fileAdd. Trying again...\n";
-	   my $res2 = $ua->request($req, $folderName."/".$fileToDl);
-	   if ($res2->is_success) {
-			print "..completed!\n";
-      $retVal = 1;
-      }else{
-     
-        #This command will force the download with different methods
-        if (ftp_fetch_file($fileAdd,$folderName,$user,$pass) == 1){
+    print "Downloading: $fileAdd...\n";
+    system "aria2c --split 4 --max-connection-per-server 4 --max-tries 5 --dir $folderName $fileAdd";
+
+    if (!$?) {  # Everything was OK, download complete
+        return 1
+    } else {  # Try to apply old logic with switching servers
+        # This command will force the download with different methods
+        if (ftp_fetch_file($fileAdd, $folderName, $user, $pass) == 1){
             print "..completed!\n";
             $retVal = 1;
-        #If it does not work and we are searching Uniprot, then access different servers
-        }elsif (match_array_with_string($fileAdd, \@uni_domains) == 1){
-          $new_link  = download_from_diff_sources($fileAdd,$folderName,$user,$pass);
-          $retVal = 2;
+        # If it does not work and we are searching Uniprot, then access different servers
+        } elsif (match_array_with_string($fileAdd, \@uni_domains) == 1){
+            $new_link  = download_from_diff_sources($fileAdd, $folderName, $user, $pass);
+            $retVal = 2;
         }
-      }
-  }
-  if ($retVal == 0){
-    die "Unable to download file $fileAdd. Restart again later. Annocript will close...\n";
-  }
-  return $retVal, $new_link;
+    }
+    if ($retVal == 0){
+        die "Unable to download file $fileAdd. Restart again later. Annocript will close...\n";
+    }
+
+    return $retVal, $new_link;
 }
 
 
@@ -490,7 +469,7 @@ sub my_extract_any_file{
   my $input = shift;
   my $outDir = shift;
   
-  print "\n Uncompressing $input...\n";
+  print "Uncompressing $input...\n";
   my $command = '';
   my $outName = '';
   if ($input =~ /\.tar.gz$/){

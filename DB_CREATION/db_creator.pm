@@ -688,7 +688,6 @@ sub extract_proteomes_from_UniProt {
 	
 	#Download the file with the organisms list
 	my $orgListLink = $configHash->{'uniprotOrgListLink'};
-
 	#print "Link: ".$orgListLink;
 	#This extracts the file name from the web link
 	my $orgListFileName = extract_name ($orgListLink,"0");
