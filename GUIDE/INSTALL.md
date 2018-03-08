@@ -8,11 +8,12 @@ The supplementary Perl MODULES bay not be included in the default installation, 
  
   - MySQL database server (tested with ver5.5) (http://www.mysql.com/)
   - MySQL database client with an account (tested with ver5.5) (http://www.mysql.com/)
-  - Perl (tested with ver5.10) (http://www.perl.org/get.html) ;
-  - BioPerl: (tested with ver1.6) (http://www.bioperl.org/wiki/Getting_BioPerl); 
+  - Perl (tested with ver5.10) (http://www.perl.org/get.html)
+  - BioPerl: (tested with ver1.6) (http://www.bioperl.org/wiki/Getting_BioPerl)
   - Python: (tested with ver2.7.3) (http://www.python.org/download/); 
-  - R: (tested with ver3.1.1) (http://www.r-project.org/). 
-    
+  - R: (tested with ver3.1.1) (http://www.r-project.org/)
+  - aria2 (tested with ver1.18.8) (https://aria2.github.io/)
+  - DIAMOND (tested with ver0.9.18) (https://github.com/bbuchfink/diamond)
   - Supplementary Perl MODULES: readkey.pm, Parallel/ForkManager.pm, Switch.pm
     To install them on a Debian derivate linux distribution use from a terminal: 
     - sudo apt-get install libterm-readkey-perl 

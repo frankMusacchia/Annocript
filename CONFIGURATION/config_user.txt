@@ -1,6 +1,6 @@
 # File configuration for the user of Annocript
 # READ CAREFULLY!!!
-# This file has been written with a specific sintax. 
+# This file has been written with a specific syntax.
 # The variables MUST stay in the format: variable = value
 # A series of hashes (#########) closes the parameters to read
 # Parameters of BLAST programs without a value assigned will not be used (i.e. word_sizeX = )
@@ -40,8 +40,11 @@ useGFFDB = NO
 #Write YES, if you want GFF output files. Using NO increases the speed.)
 printGFFOutput = NO
 
+# Whether to use DIAMOND aligner instead of BLASTX and BLASTP (also see diamondPath below)
+# DIAMOND is 2500 times faster than BLAST, but finds a few percent less hits (~94%)
+useDiamond = YES
+
 #BLASTX and BLASTP PARAMETERS (we use word_size 4 and threshold 18 to reduce computational time)
-#(outfmt can be only 0 with this version of Annocript)
 #Currently you can only use these parameters. Please ask in the forum if you need others.
 word_sizeX = 4
 evalueX = 1E-5
@@ -53,7 +56,7 @@ thresholdX = 18
 matrixX = 
 
 #BLASTN PARAMETERS
-word_sizeN = 
+word_sizeN =
 evalueN = 0.00001
 num_descriptionsN = 1
 num_alignmentsN = 1
@@ -103,6 +106,7 @@ uniprotWebUser = anonymous
 uniprotWebPass = [INSERT_YOUR_EMAIL_ADDRESS]
 
 #Programs Paths
+diamondPath = /usr/bin/diamond
 blastPath = /home/francesco/bin/ncbi-blast-2.2.30+/bin/
 portraitPath = /home/francesco/bin/portrait-1.1/portrait-1.1.pl
 dna2pepPath = /home/francesco/bin/dna2pep-1.1/dna2pep.py

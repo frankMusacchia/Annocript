@@ -1036,9 +1036,11 @@ my @ncRNAExts = qw(.nsq .nin .nhr);
 =head2 indexed_db_present
 
  Title   : indexed_db_present
- Usage   : indexed_db_present( -dbToSearch => name of the db that is searching,
-                                 -extensions  => an array with the extensions to search,
-			       );
+ Usage   : indexed_db_present(-dbToSearch => name of the db that is searching,
+                              -extensions  => an array with the extensions to search,
+                              -dbDataFolder => folder which contains databases,
+                              -useDiamond => (YES or NO) whether to use DIAMOND instead of BLAST
+			                  );
 
  Function: this function checks if a database for the BLAST is consistent
 
@@ -1046,10 +1048,17 @@ my @ncRNAExts = qw(.nsq .nin .nhr);
 
 =cut
 sub indexed_db_present {
-   my $dbToSearch = shift;
-   my $chosenExts = shift;#Extensions to search
-   my $dbDataFolder = shift;#Folder of dbs
-   
+  my $dbToSearch = shift;
+  my $chosenExts = shift; #Extensions to search
+  my $dbDataFolder = shift; #Folder of dbs
+  my $useDiamond = shift; # Whether to use DIAMOND aligner instead of BLASTX/BLASTP
+
+  if ($useDiamond eq 'YES' && $chosenExts eq 'blastIndexedExts') {  # Checking whether DIAMOND .dmnd index exists
+    if (-f $dbDataFolder."/".$dbToSearch.".dmnd") { return 1 } else { return 0 }
+  }
+  # If we're still here, then DIAMOND use it not specified (or BLASTN databases are used which DIAMOND won't support),
+  # continue with BLAST check...
+
    #Array with extensions to search
    my @extensions = ();
       #Needed variables

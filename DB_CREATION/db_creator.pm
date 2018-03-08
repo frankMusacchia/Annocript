@@ -264,16 +264,25 @@ sub execute_db_creator{
   
   
   #Indexing for BLAST programs
+
+  my $blastLikeIndexerPath;  # which tool to use for BLASTX/BLASTP index creation
+  if ($configHash->{'useDiamond'} eq 'YES') {
+    $blastLikeIndexerPath = $configHash->{'diamondPath'}
+  } else {
+    $blastLikeIndexerPath = $configHash->{'makeblastdbPath'}
+  }
+  my $useDiamond = $configHash->{'useDiamond'};
+
   #Check programs existence
   print "\n(".scalar(localtime).") >>>>>>>>>>>>>INDEXING THE FASTA DATABASES<<<<<<<<<<<<<<\n";#LOG
   print "The following databases are required to execute BLAST programs...\n";
   if ( $configHash->{'dbInUse'} eq 'uniprotkb' ){
     print "SwissProt indexed database:\n";
-    if ( indexed_db_present(extract_name($configHash->{'swissProtDB'},0),"blastIndexedExts",$dbDataFolder) == 0){
+    if ( indexed_db_present(extract_name($configHash->{'swissProtDB'},0),"blastIndexedExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0){
       print "Indexing ".$configHash->{'swissProtDB'}."\n";
       #If it is defined the link to swiss-prot then download and extract it
       if (defined $configHash->{'swissprotDBLink'} ){
-				print "Checking if it is downloaded...\n";
+        print "Checking if it is downloaded...\n";
         my $swissprotDBNameCom = extract_name($configHash->{'swissprotDBLink'}, "0");
         my $swissprotDBNameUnc = extract_name($configHash->{'swissprotDBLink'}, "gz");
         dl_and_extract($configHash->{'swissprotDBLink'},$swissprotDBNameCom,$swissprotDBNameUnc, $dbDataFolder);
@@ -291,9 +300,9 @@ sub execute_db_creator{
 			  
 	  }
 	  
-      &run_blast_indexing($configHash->{'swissProtDB'},"blastx",$configHash->{'makeblastdbPath'},$configHash->{'blastdbcmdPath'},$dbDataFolder);
+      &run_blast_indexing($configHash->{'swissProtDB'},"blastx",$blastLikeIndexerPath,$configHash->{'blastdbcmdPath'},$dbDataFolder,$useDiamond);
       #Check if the indexing has been good
-      if (check_makeblastdb_out($configHash->{'swissProtDB'},$configHash->{'blastdbcmdPath'}) == 1){ 
+      if (check_makeblastdb_out($configHash->{'swissProtDB'},$configHash->{'blastdbcmdPath'},$useDiamond) == 1){
         #table_in_db_ok(extract_name($configHash->{'swissProtDB'},0));
         print "SwissProt db indexed successfully!\n";
       }else{
@@ -306,7 +315,7 @@ sub execute_db_creator{
     $partTime = time;
     
     print "Trembl indexed database:\n";
-    if ( indexed_db_present(extract_name($configHash->{'tremblDB'},0),"blastIndexedExts",$dbDataFolder) == 0 ){
+    if ( indexed_db_present(extract_name($configHash->{'tremblDB'},0),"blastIndexedExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0 ){
       print "Indexing ".$configHash->{'tremblDB'}."\n";
       #If it is defined the link to trembl then download and extract it
       if (defined $configHash->{'tremblDBLink'}){
@@ -327,9 +336,9 @@ sub execute_db_creator{
 		 extract_proteomes_from_db($blsOrg,$tr_complete_db,"uniprotkbViewSeq","OSType",$configHash->{'tremblDB'} );
 	  }
 	  
-      &run_blast_indexing($configHash->{'tremblDB'},"blastx",$configHash->{'makeblastdbPath'},$configHash->{'blastdbcmdPath'},$dbDataFolder);
+      &run_blast_indexing($configHash->{'tremblDB'},"blastx",$blastLikeIndexerPath,$configHash->{'blastdbcmdPath'},$dbDataFolder,$useDiamond);
       #Check if the indexing has been good
-      if (check_makeblastdb_out($configHash->{'tremblDB'},$configHash->{'blastdbcmdPath'}) == 1){ 
+      if (check_makeblastdb_out($configHash->{'tremblDB'},$configHash->{'blastdbcmdPath'},$useDiamond) == 1){
         #table_in_db_ok(extract_name($configHash->{'tremblDB'},0));
         print "Trembl db indexed successfully!\n";
       }else{
@@ -343,7 +352,7 @@ sub execute_db_creator{
   }
   if ( $configHash->{'dbInUse'} eq 'uniref' ){
     print "SwissProt indexed database:\n";
-    if ( indexed_db_present(extract_name($configHash->{'swissProtDB'},0), "blastIndexedExts",$dbDataFolder) == 0 ){
+    if ( indexed_db_present(extract_name($configHash->{'swissProtDB'},0), "blastIndexedExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0 ){
       print "Indexing ".$configHash->{'swissProtDB'}."\n";
       #If it is defined the link to swiss-prot then download and extract it
       if (defined $configHash->{'swissprotDBLink'} ){
@@ -353,9 +362,9 @@ sub execute_db_creator{
          dl_and_extract($configHash->{'swissprotDBLink'},$swissprotDBNameCom,$swissprotDBNameUnc, $dbDataFolder);
       }
 
-      &run_blast_indexing($configHash->{'swissProtDB'},"blastx",$configHash->{'makeblastdbPath'},$configHash->{'blastdbcmdPath'},$dbDataFolder);
+      &run_blast_indexing($configHash->{'swissProtDB'},"blastx",$blastLikeIndexerPath,$configHash->{'blastdbcmdPath'},$dbDataFolder,$useDiamond);
       #Check if the indexing has been good
-      if (check_makeblastdb_out($configHash->{'swissProtDB'},$configHash->{'blastdbcmdPath'}) == 1){ 
+      if (check_makeblastdb_out($configHash->{'swissProtDB'},$configHash->{'blastdbcmdPath'},$useDiamond) == 1){
         #table_in_db_ok(extract_name($configHash->{'swissProtDB'},0));
         print "SwissProt db indexed successfully!\n";
       }else{
@@ -369,7 +378,7 @@ sub execute_db_creator{
     
     print "UniRef indexed database:\n";
     #The indexed db should be present with all of its files
-    if (  indexed_db_present(extract_name($configHash->{'unirefDB'},0), "blastIndexedExts",$dbDataFolder) == 0 ){
+    if (  indexed_db_present(extract_name($configHash->{'unirefDB'},0), "blastIndexedExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0 ){
       print "Indexing ".$configHash->{'unirefDB'}."\n";
       
       #If it is defined the link to trembl then download and extract it
@@ -380,9 +389,9 @@ sub execute_db_creator{
         dl_and_extract($configHash->{'unirefDBLink'},$unirefDBNameCom,$unirefDBNameUnc, $dbDataFolder); 
       }
        
-      &run_blast_indexing($configHash->{'unirefDB'},"blastx",$configHash->{'makeblastdbPath'},$configHash->{'blastdbcmdPath'},$dbDataFolder);
+      &run_blast_indexing($configHash->{'unirefDB'},"blastx",$blastLikeIndexerPath,$configHash->{'blastdbcmdPath'},$dbDataFolder,$useDiamond);
       #Check if the indexing has been good
-      if (check_makeblastdb_out($configHash->{'unirefDB'},$configHash->{'blastdbcmdPath'}) == 1){ 
+      if (check_makeblastdb_out($configHash->{'unirefDB'},$configHash->{'blastdbcmdPath'},$useDiamond) == 1){
         #table_in_db_ok(extract_name($configHash->{'unirefDB'},0));
         print "UniRef db indexed successfully!\n";
       }else{
@@ -397,11 +406,11 @@ sub execute_db_creator{
   
  
   print "ncRNA indexed database:\n";
-  if ( indexed_db_present(extract_name($configHash->{'ncDB'},0),"ncRNAExts",$dbDataFolder) == 0 ){
+  if ( indexed_db_present(extract_name($configHash->{'ncDB'},0),"ncRNAExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0 ){
     print "Indexing ".$configHash->{'ncDB'}."\n";
-    &run_blast_indexing($configHash->{'ncDB'},"blastn",$configHash->{'makeblastdbPath'},$configHash->{'blastdbcmdPath'},$dbDataFolder);
+    &run_blast_indexing($configHash->{'ncDB'},"blastn",$configHash->{'makeblastdbPath'},$configHash->{'blastdbcmdPath'},$dbDataFolder,$useDiamond);
     #Check if the indexing has been good
-    if (check_makeblastdb_out($configHash->{'ncDB'},$configHash->{'blastdbcmdPath'}) == 1){ 
+    if (check_makeblastdb_out($configHash->{'ncDB'},$configHash->{'blastdbcmdPath'},'NO') == 1){
         #table_in_db_ok(extract_name($configHash->{'ncDB'},0));
         print "ncRNA db indexed successfully!\n";
     }else{

@@ -62,6 +62,13 @@ my $configHash;
 
 #An array contains the arguments to be passed. If something that you need is not here please add	
 my @blastArgs = ('word_size','evalue','num_threads','num_descriptions','num_alignments','max_target_seqs','outfmt','threshold','matrix');
+my %blast2diamond = (
+  'evalue' => 'evalue',
+  'num_threads' => 'threads',
+  'outfmt' => 'outfmt',
+  'matrix' => 'matrix',
+  'num_alignments' => 'max-target-seqs',
+);
 
 #The maximum  and minimum lengths permitted for a sequence to be computed by portrait
 my $maxPortraitSeqLength; 
@@ -168,7 +175,10 @@ sub execute_programs {
   $cdDBPath = $configHash->{'cdDBPath'};
 	$query = $configHash->{'fastaSeqs'};
 	$threads = $configHash->{'threads'};
-	
+  my $diamondPath = '';
+  if ($configHash->{'useDiamond'}) { $diamondPath = $configHash->{'diamondPath'} };
+  my $useDiamond = $configHash->{'useDiamond'};
+
   #Variables for computing execution times
 	my $globalStart = time;
 	my $partTime  = time;
@@ -203,7 +213,7 @@ sub execute_programs {
 			if ($configHash->{'doBlastxSP'} eq "YES"){
 				print "\n(".scalar(localtime)."): Running $blastToUse against SwissProt DB\n";#LOG
 				my $blastxSPOutPath = 'blastx/'.$configHash->{'blastxSPOut'};
-				&run_blast($fastaSeqs,$blastToUsePath,$configHash->{'swissProtDB'}, $threads,$blastxSPOutPath);
+				&run_blast($fastaSeqs,$blastToUsePath,$configHash->{'swissProtDB'}, $threads,$blastxSPOutPath,$diamondPath);
 				#Check if the output is good
 				$blastxSPOutPath = $blastxSPOutPath.'1';
 				if (&checkOutput($blastxSPOutPath,$totSequences,"blast") == 0){
@@ -219,7 +229,7 @@ sub execute_programs {
       if ($configHash->{'doBlastxTRorUf'} eq "YES"){
 				print "\n(".scalar(localtime)."): Running $blastToUse against Trembl DB\n";#LOG
 				my $blastxTROutPath = 'blastx/'.$configHash->{'blastxTROut'};
-				&run_blast($fastaSeqs,$blastToUsePath, $configHash->{'tremblDB'}, $threads,$blastxTROutPath);
+				&run_blast($fastaSeqs,$blastToUsePath, $configHash->{'tremblDB'}, $threads,$blastxTROutPath,$diamondPath);
 				#Check the output if is good
 				$blastxTROutPath = $blastxTROutPath.'1';
 				if (&checkOutput($blastxTROutPath,$totSequences,"blast") == 0){
@@ -236,7 +246,7 @@ sub execute_programs {
 			if ($configHash->{'doBlastxSP'} eq "YES"){
 				print "\n(".scalar(localtime)."): Running $blastToUse against SwissProt DB\n";#LOG
 				my $blastxSPOutPath = 'blastx/'.$configHash->{'blastxSPOut'};
-				&run_blast($fastaSeqs,$blastToUsePath,$configHash->{'swissProtDB'}, $threads,$blastxSPOutPath);
+				&run_blast($fastaSeqs,$blastToUsePath,$configHash->{'swissProtDB'}, $threads,$blastxSPOutPath,$diamondPath);
 				#Check if the output is good
 				$blastxSPOutPath = $blastxSPOutPath.'1';
 				if (&checkOutput($blastxSPOutPath,$totSequences,"blast") == 0){
@@ -251,7 +261,7 @@ sub execute_programs {
 			if ($configHash->{'doBlastxTRorUf'} eq "YES"){
 				print "\n(".scalar(localtime)."): Running $blastToUse against UniRef DB\n";#LOG
 				my $blastxUnirefOutPath = 'blastx/'.$configHash->{'blastxUnirefOut'};
-				&run_blast($fastaSeqs,$blastToUsePath,$configHash->{'unirefDB'}, $threads,$blastxUnirefOutPath);
+				&run_blast($fastaSeqs,$blastToUsePath,$configHash->{'unirefDB'}, $threads,$blastxUnirefOutPath,$diamondPath);
 				#Check if the output is good
 				$blastxUnirefOutPath = $blastxUnirefOutPath.'1';
 				if (&checkOutput($blastxUnirefOutPath,$totSequences,"blast") == 0){
@@ -294,22 +304,22 @@ sub execute_programs {
     $programRuns++;
 	}
   
-  if ($configHash->{'doBlastn'} eq "YES"){
-      my $blastToUsePath;
-      my $blastToUse;
-      #Here we check if the sequences are aminoacidic or peptidic because in the first case
-      #blastx will be used, in the second one blastp
-      if ($configHash->{'sequencesAlphabet'} eq 'dna'){
-        $blastToUsePath = $blastnPath;
-        $blastToUse = 'BLASTN';
-      }else{
-         $blastToUsePath = $tblastnPath;
-         $blastToUse = 'TBLASTN';
-        }
-         
+  if ($configHash->{'doBlastn'} eq "YES") {
+    my $blastToUsePath;
+    my $blastToUse;
+    #Here we check if the sequences are aminoacidic or peptidic because in the first case
+    #blastx will be used, in the second one blastp
+    if ($configHash->{'sequencesAlphabet'} eq 'dna') {
+      $blastToUsePath = $blastnPath;
+      $blastToUse = 'BLASTN';
+    } else {
+      $blastToUsePath = $tblastnPath;
+      $blastToUse = 'TBLASTN';
+    }
+
     print "\n(".scalar(localtime).") Running $blastToUse against the non-coding RNA db\n";#LOG
     my $blastnOutPath = 'blastn/'.$configHash->{'blastnOut'};
-    &run_blast($fastaSeqs,$blastToUsePath,$configHash->{'ncDB'}, $threads,$blastnOutPath);
+    &run_blast($fastaSeqs,$blastToUsePath,$configHash->{'ncDB'}, $threads,$blastnOutPath,'');
     #Check the output if is good
     $blastnOutPath = $blastnOutPath.'1';
     if (&checkOutput($blastnOutPath,$totSequences,"blast") == 0){
@@ -435,11 +445,12 @@ sub checkOutput{
 =head2 run_blast_indexing
 
  Title  : run_blast_indexing
- Usage  : run_blast_indexing( -file => 'query.fasta',
-                -program => 'name of the program'
-			    );
+ Usage  : run_blast_indexing(-file => 'query.fasta',
+                             -program => 'name of the program'
+			                 );
 
- Function: 	Starts makeblastdb that indicizes the fasta database that blast applications have to use
+ Function: 	Starts makeblastdb that indicizes the fasta database that blast applications have to use.
+            In case of DIAMOND, 'diamond makedb' is used instead.
 
  Returns : the blast db indicized will be saved in the working directory
 
@@ -450,16 +461,26 @@ sub run_blast_indexing {
   my $programPath = shift;
   my $blastInfoProgram = shift;
   my $dbDataFolder = shift;
+  my $useDiamond = shift;
   
   #$file = $dataFolder."/".$file;
-	 
+
   if(-z "$file"){
     die ("\nERROR [$?]: $file file is empty: ?\n");
   }
   if(!-e "$file"){
     die ("\nERROR [$?]: $file not exists: ?\n");
   }
-  
+
+  if (($program eq 'blastx' || $program eq 'blastp') && ($useDiamond eq 'YES')) {
+    print "Creating index in DIAMOND mode...\n";
+    my $command = "$programPath makedb --in $file --db $file";
+    print "$command\n";
+    (system $command) == 0 or die "ERROR [$?/256]: DIAMOND index creation failed\n";
+    return;
+  }
+
+  # If we're still here, then create databases in BLAST mode
   print "Running indexing... \n";
   my $extensions = '';
   my $outFILE = extract_name($file,0);
@@ -491,7 +512,7 @@ sub run_blast_indexing {
     or die "ERROR [$?]: an error occurred while running $blastInfoProgram: $?";
     	
 	#Checking if all the files are ok ....
-	if ( indexed_db_present(extract_name($file,0),$extensions,$dbDataFolder) == 0 ){
+	if ( indexed_db_present(extract_name($file,0),$extensions,$dbDataFolder, $useDiamond) == 0 ){
 		die ("\nERROR [$?]: $programPath run not successful: ?\n");
 	}
 	
@@ -527,13 +548,15 @@ sub run_blast_indexing {
 sub check_makeblastdb_out {
   my $filePath = shift;
   my $programPath = shift;
+  my $useDiamond = shift;
 
-  
+  if ($useDiamond eq 'YES') { return 1; }  # DB check is not applicable for DIAMOND
+
   my $out = $filePath.".out";
   my $returnVal = 1;
   my $command = "$programPath -db $filePath -info -out $out";
   
-  ( system ($command)  ) == 0
+  ( system ($command) ) == 0
   or die "ERROR [$?]: an error occurred while running $programPath: $?";
   
   if ( -z $out){
@@ -551,6 +574,8 @@ sub check_makeblastdb_out {
             -db => 'the db to use with blast'
             -threads => 'number of thread to use for blast'
             -outFile => 'the name of the output blast file'
+            -diamondPath => if this variable is not empty *AND* blast type is either BLASTP or BLASTX, then
+                            DIAMOND aligner will be used instead of BLAST.
 			    );
 
  Function: 	This is a function to run a generic blast by using the parameters given using the function build_query_args
@@ -564,6 +589,7 @@ sub run_blast {
   my $db = shift;
   my $threads = shift;
   my $outFile = shift;
+  my $diamondPath = shift;
  
   # $file is the query file that we decided to keep in the session folder
   $file = $sessionFolder."/".$file;
@@ -573,40 +599,41 @@ sub run_blast {
   
   $outFile = $outFolder."/".$outFile.'1';
   
-  if(-z "$file"){ 
-    die ("\nERROR [$?]: $program stops due to lack of sequences: ?\n");
-  }
-  if(!-e "$file"){  
-    die ("\nERROR [$?]: $program stops due to lack of sequence file: ?\n");
-  }
- 
+  if (-z "$file") { die ("\nERROR [$?]: $program stops due to lack of sequences: ?\n") }
+  if (!-e "$file") { die ("\nERROR [$?]: $program stops due to lack of sequence file: ?\n") }
+
   print "Running ".$program."...";
   print "Out file: ".$outFile."\n";
-   my $query = $programPath.' -query '.$file.' -db '.$db;
-  if( ($program eq "blastx") or ($program eq "blastp") ){ 
-    $query = $query.' '.build_query_args('X').' -out '.$outFile;  
+
+  my $dash = '-';  # by default, BLAST will use 1 dash for arguments, while DIAMOND uses two
+  my $runArgs = '';
+  my $useDiamond = 0;
+  if( ($program eq "blastx") or ($program eq "blastp") ) {
+    if ($diamondPath) { $programPath = "$diamondPath $program --sensitive --quiet"; $useDiamond = 1; $dash='--' };
+    $runArgs = build_query_args('X', $useDiamond);
+  } elsif( ($program eq "rpstblastn") or ($program eq "rpsblast") ) {
+    $runArgs = build_query_args('RPS', 0)
+  } elsif( ($program eq "blastn") or ($program eq "tblastn") ) {
+    $runArgs = build_query_args('N', 0)
   }
-  elsif( ($program eq "rpstblastn") or ($program eq "rpsblast") ){ 
-    $query = $query.' '.build_query_args('RPS').' -out '.$outFile;
+
+  $query = "$programPath $runArgs ${dash}query $file ${dash}db $db ${dash}outfmt 0";
+  if ($useDiamond) {  # sed regular expression corrects DIAMOND output so that BioPerl can read it
+    # correcting "Frame 1" to "Frame +1" etc.
+    $query = $query.q(' | sed -e '/^ Frame = [123]$/ {s@= @= +@}' > ).$outFile
+  } else {
+    $query = "$query ${dash}out $outFile"
   }
-  elsif( ($program eq "blastn") or ($program eq "tblastn") ){ 
-    $query = $query.' '.build_query_args('N').' -out '.$outFile;
-  }
-  
+
   print "The query is :".$query."\n\n";
-  ( system ($query)  ) == 0
-  or die "ERROR [$?]: an error occurred while running $programPath: $?";
+  (system ($query)) == 0 or die "ERROR [$?]: an error occurred while running $programPath: $?";
     
-  if(-z "$outFile"){
-    print ("\nWARNING: $program output file is empty (maybe no results)\n");  
-  }
-  if(!-e "$outFile"){
-    die ("\nERROR [$?]: $program run not successful: ?\n");
-  }
-  print "...DONE!! Results printed on $outFile\n";
+  if (-z "$outFile") { print ("\nWARNING: $program output file is empty (maybe no results)\n") }
+  if (!-e "$outFile") { die ("\nERROR [$?]: $program run not successful: ?\n") }
+  print "...DONE! Results printed to $outFile\n";
 }
 
-	
+
 =head2 build_query_args
  Title  : build_query_args
  Usage  : build_query_args( -programId => 'what is the program (X,N,RPS)' );
@@ -631,18 +658,24 @@ sub run_blast {
 
 =cut
 sub build_query_args {
-	my $queryArgs = '';
-	my $programId=shift;
+  my $programId = shift;
+  my $useDiamond = shift;
 
-  foreach my $blastArg (@blastArgs){
+  my $queryArgs = '';
+  foreach my $blastArg (@blastArgs) {
     my $arg = $blastArg.$programId;
-		if (defined($configHash->{$arg})){ 
-			$queryArgs = $queryArgs.' -'.$blastArg.' '.$configHash->{$arg};
-		}
-	}
-	return	$queryArgs;
+    if (defined($configHash->{$arg})) {
+      if ($useDiamond) {
+        my $diamondArg = $blast2diamond{$arg};
+        if ($diamondArg) { $queryArgs = $queryArgs . ' --' . $diamondArg . ' ' . $configHash->{$arg}; }
+      } else {
+        $queryArgs = $queryArgs . ' -' . $blastArg . ' ' . $configHash->{$arg};
+      }
+    }
+  }
+  return $queryArgs;
 }
-	
+
 	
 
 
@@ -1221,7 +1254,7 @@ sub blast_parallel_run{
   my $cmd = $programPath.' -db '.$db;
   #This works actually only for rps because blastn and blastx can be started with num_threads
   if( ($program eq "rpstblastn") or ($program eq "rpsblast") ){ 
-    $cmd = $cmd.' '.build_query_args('RPS').' ';
+    $cmd = $cmd.' '.build_query_args('RPS', 0).' ';
   }
   #elsif( ($program eq "blastx") or ($program eq "blastp") ){ 
     #$cmd = $cmd.' '.build_query_args('X').' ';  
