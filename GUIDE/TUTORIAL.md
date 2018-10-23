@@ -1,0 +1,178 @@
+# Annocript - Configure and run!
+
+## Configuration 
+
+The first time you run *Annocript* you have to set some important parameters in the config_user.txt file. 
+These parameters will not change anymore after you set them the first time. 
+The configurafion file config_user.txt has been copied into your ann_works folder. Go into that folder and open config_user.txt with an editor (nano, vi,..)
+
+
+**Fasta transcriptome** 
+
+The first parameter is the name of your FASTA file. For this tutorial keep the default name. Later you will use your own fasta file name.
+
+        fastaSeqs = trial_transcriptome.fasta
+        
+IMPORTANT: The name of the file with sequences must respect these constrains:        
+- the extension must be .fasta or .fa;
+- the overall lenght (with  extension) must be no longer than 50 chars;
+- the name has not to contain dots. Only the one which separates the extension is accepted;
+- chars accepted in the name are: A-z,a-z,0-9,_,-.
+- the fasta file must be into the working directory (ann_works)
+
+If these constrains are not respected *Annocript* will die and you will have to change the sequences file names. 
+
+*Annocript* checks the fasta file you give in input to see if it is really a FASTA format. If it does not, it will display the errors and stop.
+
+**Organisms to blast with**
+
+This parameter is useful to define which organisms to blast with. Here you can both give a file name with a list of organisms names
+or select 'all', to intend that you want to use all the UniProt database. 
+
+If you want to blast against selected organisms you must use TrEMBL database. Look [here](https://github.com/frankMusacchia/Annocript/blob/master/GUIDE/ADVANCED_USAGE.md#how-to-blast-against-specific-organisms) for more info...
+
+For this tutorial, please leave "all":
+
+blastedOrganism = all
+
+**GO terms associations**
+
+You can ask *Annocript* to display GO terms associated with proteins, domains or both. To define this behaviour use the parameter:
+**goTermsAss**. You can give it the following values: 'proteins', 'domains' or 'both'.
+
+For this tutorial, please leave the default value: proteins.
+
+**Number of threads to use**
+You should also set the number of threads you want to use (depending from the number of processors you have on your system) and the name of the file with transcripts. 
+
+num_threadsX = 10
+num_threadsN = 4
+threads4Parallel = 10
+
+
+
+Now, reach the final part of the file (FIXED PARAMETERS) and do the following: 
+
+**Database account info** 
+You have to replace here your account informations to access the MySQL database. 
+
+        mySqlUser  //Username for MySQL in your system 
+        mySqlPass  //Password for MySQL in your system 
+
+
+IMPORTANT: To use Annocript you need access to a MySQL server with an account with grants to create databases
+ and tables and insert/modify/delete rows. If you don't have, please contact your system administrator. 
+ 
+
+**Uniprot user access** 
+Here you choose the account name and password to access and download from UniProt: 
+
+        uniprotWebUser = anonymous (you can leave this) 
+        uniprotWebPass = youremail@the_domain.com 
+
+
+**Programs paths** 
+Here you need to add paths to the programs that depend on the folder where you chose to install. 
+These paths have been given by Annocript during the installation. Please use them:
+(Please leave diamondPath empty. Annocript still doesn't have support for it.)
+
+        #Programs Paths 
+	diamondPath =
+        blastPath = /home/francesco/bin/blast/bin/ 
+        portraitPath = /home/francesco/bin/portrait/portrait-1.1.pl 
+        dna2pepPath = /home/francesco/bin/dna2pep/dna2pep.py 
+  
+        
+Now you are ready to use *Annocript*! 
+
+Below is shown how to make different things. You should first create a database for proteins and then 
+run the programs. If you need only to do one of the three steps you can go to ADVANCED_USAGE page. 
+
+READ CAREFULLY: 
+- Depending upon your network you may experience some problems during the automatical download and uncompression of UniProt files or other flat files used as sequences/annotation sources. 
+Some Warnings also may come out because of problems with connection on your client and db servers. If you meet some of these problems during the Annocript run we suggest follow carefully instructions on "How to run Annocript with already downloaded db files" in the HINTS AND TIPS section in ADVANCED_USAGE page.
+- Database files links are contained in the annocript_config.txt file. It is inside the Annocript/CONFIGURATION folder. The default UniRef database is UniRef50 but you may want to choose 90 or 100, too. If you want, please change both the links unirefDBLink and unirefVerLink accordingly (you need only to substitute the number!).
+- The default database for domains is the Cdd. It contains domains from KOG, COG, Pfam, TIGR, Prk. Some problem could be verified when you are using a machine with 32bits. Please consider to use only one single database. We suggest Pfam but you can use which you want. If you do that, please change the variable cdName4Expression in the same annocript_config.txt file.
+
+        
+##Annocript fast complete execution 
+
+
+After that the fixed parameters have been set, you can start *Annocript* and your analysis. 
+A trial file (trial\_transcriptome.txt) is present in the folder USEFUL of the program.
+When you will use your sequences, the fasta file must be located inside your working directory folder (ann_works) and you will change
+the parameter *fastaSeqs* accordingly.
+
+To run *Annocript*, launch the following command:
+
+                ---------------- TERMINAL ------------------ 
+                francesco@compaq2:~/ann_works$ perl /path/to/Annocript/annocript.pl -c config_user.txt --analysis trial --db_type uniref
+                ---------------- TERMINAL ------------------ 
+Where you must give the name of the analysis and the type of database to use. 
+
+
+
+*Annocript* checks the configuration file and displays what will be the flow of the pipeline:
+
+                ---------------- TERMINAL ------------------ 
+               Checking /home/francesco/Annocript/CONFIGURATION/program_config.txt 
+		Checking config_user.txt 
+		Loading the parameters for the run as from /home/francesco/Annocript/CONFIGURATION/program_config.txt and config_user.txt...
+		DONE!
+		Checking Annocript integrity...
+
+              Annocript is going to run:
+		-Database Creation.
+		-Execution of programs:
+		BLASTX against SwissProt.
+		BLASTX against TrEMBL/UniRef.
+		RPSBLAST against conserved domains database.
+		BLASTN against ncRNA.
+		lncRNA prediction. 
+		Longest ORF search.
+		Creation of the final tabular output.
+		Generation of statistics.
+		..............
+		....	
+                ---------------- TERMINAL ------------------ 
+
+
+(NOTICE: if you get some error during one Session of work you can start again and load the same session) 
+
+*Annocript* will download the current version of the database UniRef and set the folder for the data: 
+
+
+                ---------------- TERMINAL ------------------ 
+               Current UniProt db version will be installed: 2018_04
+		.....
+		....
+		Your configuration has been saved! A log file will be created in /home/francesco/ann_works/analyses/trial/log/annocript_exec_Wed_May__2_
+		09-12-41_2018.log. 
+		The overall computation usually depends on the number of sequences and the speed of the machine you are using. 
+		You may want to check Annocript step-by-step with the following command: more /home/francesco/ann_works/analyses/trial/log/annocript_exe
+		c_Wed_May__2_09-12-41_2018.log.
+
+                ---------------- TERMINAL ------------------ 
+
+
+At this point *Annocript* is running! 
+
+Notice: the database must be created only once. When you later will use your own transcriptome you must: 1) change the parameter *fastaSeqs*; 2) set doDbCreation = NO; 3) set the database version that you want to use with --db\_version. (e.g. the command will be: perl ../Annocript2.0/annocript.pl -c config\_user.txt --analysis your\_analysis --db\_type uniref --db\_version 2018_04
+
+You can look at the log file to see the current state with the linux program 'more'. 
+
+                ---------------- TERMINAL ------------------ 
+                more /home/francesco/ann_works/jobs/trial/log/annocript_exec_DATE_TIME_YEAR.log
+                ---------------- TERMINAL ------------------ 
+
+You may want to know if *Annocript* is actually running. Watch this by using the 'htop' linux command. You should see the command "perl PROGRAMS\_EXEC/annocript_executor.pl path/to/yourSequences.fasta" running. To search it press the F3 key and search 'annocript'. It should appear!
+
+You now may want to understand what is coming out from *Annocript*. Read it in the [OUTPUT](https://github.com/frankMusacchia/Annocript/blob/master/GUIDE/OUTPUT.md) page.
+Or you may want to do something more specific or change parameters, then look at [ADVANCED_USAGE](https://github.com/frankMusacchia/Annocript/blob/master/GUIDE/ADVANCED_USAGE.md) page.
+
+
+
+------------------------------------------
+
+
+If you get some error during the installation or the running of Annocript please see the FAQ page of the user guide or ask on the google group: https://groups.google.com/forum/#!forum/annocript
