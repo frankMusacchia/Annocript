@@ -375,7 +375,7 @@ sub execute_programs {
 			$info_string .=	"UniRef type used:".extract_name($configHash->{'unirefDB'},1)."\n";
 		}
 											
-		append_str_2_file($info_string,$configHash->{'versions_file'});
+		append_str_2_file($configHash->{'versions_file'}, $info_string);
 		#Calculate the time needed for all the processes
 		my $globalDuration = time - $globalStart;
 		print "\n".scalar(localtime).": Annocript has finished the execution of $programRuns programs in: $globalDuration seconds\n\n";#LOG
